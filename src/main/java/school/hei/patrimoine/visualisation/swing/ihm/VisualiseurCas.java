@@ -6,6 +6,7 @@ import java.util.List;
 import school.hei.patrimoine.cas.example.EtudiantPireCas;
 import school.hei.patrimoine.cas.example.PatrimoineCresusSupplier;
 import school.hei.patrimoine.cas.example.PatrimoineRicheSupplier;
+import school.hei.patrimoine.cas.pro3.PatrimoineDeBako;
 
 public class VisualiseurCas {
 
@@ -14,6 +15,7 @@ public class VisualiseurCas {
         () ->
             new MainIHM(
                 List.of(
+                    new PatrimoineDeBako().get(),
                     new EtudiantPireCas().patrimoine(),
                     new PatrimoineRicheSupplier().get(),
                     new PatrimoineCresusSupplier().get())));

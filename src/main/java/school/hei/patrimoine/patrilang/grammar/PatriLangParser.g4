@@ -93,7 +93,7 @@ correction
     :   MUL id COMMA? dateValue=variable COMMA? MOT_CORRIGER valeurComptable=variable MOT_DANS compteNom=variable
     ;
 
-ajoutValeurMarchee
+valeurMarchee
     :   MUL id COMMA? dateDeVente=variable COMMA? MOT_VALEUR_MARCHEE_DE prixDeVente=variable MOT_POUR possessionAffectee=variable
     ;
 
@@ -170,7 +170,7 @@ operation
     |   operationTemplateCall
     |   ligneVariableDeclaration
     |   ligneCasOperations
-    |   ajoutValeurMarchee
+    |   valeurMarchee
     |   ventePossession
     ;
 

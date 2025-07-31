@@ -21,7 +21,7 @@ class ValeurMarcheeVisitorTest {
 
     UnitTestVisitor visitor = new UnitTestVisitor() {
         @Override
-        public Object visitAjoutValeurMarchee(PatriLangParser.AjoutValeurMarcheeContext ctx) {
+        public Object visitValeurMarchee(PatriLangParser.ValeurMarcheeContext ctx) {
             return subject.apply(ctx);
         }
     };
@@ -37,7 +37,7 @@ class ValeurMarcheeVisitorTest {
         var input = "*`valeurMarchée`, le 01 du 01-2025, valeur marchée de 200000Ar pour Trésoreries:maPossession";
 
         var exception = assertThrows(UnsupportedOperationException.class, () ->
-                visitor.visit(input, PatriLangParser::ajoutValeurMarchee)
+                visitor.visit(input, PatriLangParser::valeurMarchee)
         );
 
         assertTrue(exception.getMessage().contains("Impossible d'ajouter une valeur de marché"));

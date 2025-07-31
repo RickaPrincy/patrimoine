@@ -20,7 +20,7 @@ public class VenteVisitorTest {
     
     UnitTestVisitor visitor = new UnitTestVisitor(){
         @Override
-        public Object visitVentePossession(PatriLangParser.VentePossessionContext ctx){
+        public Object visitVente(PatriLangParser.VenteContext ctx){
             return subject.apply(ctx);
         }
     };
@@ -34,7 +34,7 @@ public class VenteVisitorTest {
                 "*`ventePossession`, le 01 du 01-2025, vente de Trésoreries:monCompte pour 300000Ar vers Trésoreries:monCompte";
 
         var exception = assertThrows(UnsupportedOperationException.class, () ->
-                visitor.visit(input, PatriLangParser::ventePossession)
+                visitor.visit(input, PatriLangParser::vente)
         );
 
         assertTrue(exception.getMessage().contains("Impossible de vendre"));

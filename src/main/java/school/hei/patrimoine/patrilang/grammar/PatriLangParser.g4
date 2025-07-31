@@ -97,7 +97,7 @@ valeurMarchee
     :   MUL id COMMA? dateDeVente=variable COMMA? MOT_VALEUR_MARCHEE_DE prixDeVente=variable MOT_POUR possessionAffectee=variable
     ;
 
-ventePossession
+vente
     :   MUL id COMMA? dateDeVente=variable COMMA? MOT_VENTE_DE possessionAVendre=variable MOT_POUR prixDeVente=variable MOT_VERS compteBeneficiaire=variable
     ;
 
@@ -171,7 +171,7 @@ operation
     |   ligneVariableDeclaration
     |   ligneCasOperations
     |   valeurMarchee
-    |   ventePossession
+    |   vente
     ;
 
 ligneCasOperations

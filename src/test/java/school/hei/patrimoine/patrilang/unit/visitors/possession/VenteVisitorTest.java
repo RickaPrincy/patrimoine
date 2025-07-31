@@ -2,6 +2,7 @@ package school.hei.patrimoine.patrilang.unit.visitors.possession;
 
 import org.junit.jupiter.api.Test;
 import school.hei.patrimoine.modele.possession.Compte;
+import school.hei.patrimoine.modele.possession.Vente;
 import school.hei.patrimoine.patrilang.antlr.PatriLangParser;
 import school.hei.patrimoine.patrilang.utils.UnitTestVisitor;
 import school.hei.patrimoine.patrilang.visitors.possession.VenteVisitor;
@@ -20,7 +21,7 @@ public class VenteVisitorTest {
     
     UnitTestVisitor visitor = new UnitTestVisitor(){
         @Override
-        public Object visitVente(PatriLangParser.VenteContext ctx){
+        public Vente visitVente(PatriLangParser.VenteContext ctx){
             return subject.apply(ctx);
         }
     };

@@ -60,7 +60,7 @@ public abstract sealed class Possession extends Objectivable
   public final Argent valeurComptableFuture(LocalDate tFutur) {
     if (getDateDeVente() != null) {
       if (!tFutur.isBefore(getDateDeVente())) {
-        return valeurComptable.mult(0);
+        return new Argent(0, devise());
       }
     }
 
@@ -125,8 +125,6 @@ public abstract sealed class Possession extends Objectivable
 
   @Override
   public void vendre(Argent valeurDeVente, LocalDate dateDeVente, Compte compteBeneficiaire) {
-    if ((typeAgregat() != TypeAgregat.IMMOBILISATION) && (typeAgregat() != TypeAgregat.ENTREPRISE))
-      throw new UnsupportedOperationException("Impossible de vendre ce type d'agrégat");
     informationDeVente.confirmeVente(this, valeurDeVente, dateDeVente, compteBeneficiaire);
   }
 }

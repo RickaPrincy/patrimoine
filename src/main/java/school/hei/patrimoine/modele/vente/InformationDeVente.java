@@ -36,25 +36,10 @@ public class InformationDeVente implements Serializable {
         .filter(v -> v.t().isBefore(t) || v.t().isEqual(t))
         .sorted(Comparator.comparing(ValeurMarchee::t))
         .findFirst()
-        .orElse(new ValeurMarchee(t, Argent.euro(0)));
+        .orElse(new ValeurMarchee(t, new Argent(0, getValeurDeVente().devise())));
   }
 
   public boolean estVendue() {
     return valeurDeVente != null && dateDeVente != null && compteBeneficiaire != null;
-  }
-
-  public void confirmeVente(
-      Possession possessionVendue,
-      Argent valeurDeVente,
-      LocalDate dateDeVente,
-      Compte compteBeneficiaire) {
-    this.valeurDeVente = valeurDeVente;
-    this.dateDeVente = dateDeVente;
-    this.compteBeneficiaire = compteBeneficiaire;
-    new FluxArgent(
-        String.format("Vente de %s", possessionVendue.nom()),
-        compteBeneficiaire,
-        dateDeVente,
-        valeurDeVente);
   }
 }

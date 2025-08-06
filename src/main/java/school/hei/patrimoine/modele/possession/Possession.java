@@ -60,7 +60,7 @@ public abstract sealed class Possession extends Objectivable
   public final Argent valeurComptableFuture(LocalDate tFutur) {
     if (getDateDeVente() != null) {
       if (!tFutur.isBefore(getDateDeVente())) {
-        return new Argent(0, devise());
+        return valeurComptable.mult(0);
       }
     }
 
@@ -125,6 +125,13 @@ public abstract sealed class Possession extends Objectivable
 
   @Override
   public void vendre(Argent valeurDeVente, LocalDate dateDeVente, Compte compteBeneficiaire) {
-    informationDeVente.confirmeVente(this, valeurDeVente, dateDeVente, compteBeneficiaire);
+    informationDeVente.setValeurDeVente(valeurDeVente);
+    informationDeVente.setDateDeVente(dateDeVente);
+    informationDeVente.setCompteBeneficiaire(compteBeneficiaire);
+    new FluxArgent(
+        String.format("Vente de %s", this.nom()),
+        compteBeneficiaire,
+        dateDeVente,
+        valeurDeVente);
   }
 }

@@ -40,4 +40,5 @@ public class VenteVisitorTest {
 
         assertTrue(exception.getMessage().contains("Impossible de vendre"));
     }
+
 }

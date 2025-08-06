@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import school.hei.patrimoine.modele.Argent;
 import school.hei.patrimoine.modele.possession.Materiel;
+import school.hei.patrimoine.patrilang.modele.variable.VariableType;
 import school.hei.patrimoine.patrilang.visitors.SimpleVisitor;
 import school.hei.patrimoine.patrilang.visitors.variable.VariableVisitor;
 
@@ -25,11 +26,15 @@ public class MaterielVisitor implements SimpleVisitor<PossedeMaterielContext, Ma
     LocalDate dateAcquisition =
         nonNull(ctx.dateObtention) ? this.variableVisitor.asDate(ctx.dateObtention) : t;
 
-    return new Materiel(
+    Materiel materiel =  new Materiel(
         nom,
         dateAcquisition,
         t,
         valeurComptable,
         tauxDAppreciation / 100 * facteurTauxDAppreciation);
+
+    variableVisitor.addToScope(nom, VariableType.MATERIEL,materiel);
+
+    return materiel;
   }
 }

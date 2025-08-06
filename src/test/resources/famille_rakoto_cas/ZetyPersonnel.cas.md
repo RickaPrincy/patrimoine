@@ -20,6 +20,8 @@
 # Initialisation
 * `objectifInitZetyPersonnel` Dates:ajd, objectif de 1000000Ar pour Trésoreries:zetyPersonnel
 * `initComptePersonnel` Dates:ajd, entrer 1000000Ar vers Trésoreries:zetyPersonnel
+*  `possedeMateriel` , Date:adj posseder ordinateur valant 200000Ar , s'appréciant annuellement de 1%
+*  `Vente de material` , Date:adj vente de ordinateur pour 160000Ar vers bni 
  
 # Opérations
 ## TrainDeVie, Dates:ajd, devise en Ar

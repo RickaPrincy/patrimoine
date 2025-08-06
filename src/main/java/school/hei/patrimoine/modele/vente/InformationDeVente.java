@@ -8,6 +8,7 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import school.hei.patrimoine.modele.Argent;
+import school.hei.patrimoine.modele.Devise;
 import school.hei.patrimoine.modele.possession.Compte;
 
 @Getter
@@ -29,12 +30,22 @@ public class InformationDeVente implements Serializable {
     this.valeurMarches.add(v);
   }
 
+  private Devise getDeviseProche(LocalDate t) {
+    return getValeurMarches().stream()
+        .filter(v -> v.t().isBefore(t) || v.t().isEqual(t))
+        .sorted(Comparator.comparing(ValeurMarchee::t).reversed())
+        .map(v -> v.valeur().devise())
+        .findFirst()
+        .orElse(Devise.MGA);
+  }
+  ;
+
   public ValeurMarchee getValeurMarche(LocalDate t) {
     return getValeurMarches().stream()
         .filter(v -> v.t().isBefore(t) || v.t().isEqual(t))
         .sorted(Comparator.comparing(ValeurMarchee::t))
         .findFirst()
-        .orElse(new ValeurMarchee(t, new Argent(0, getValeurDeVente().devise())));
+        .orElse(new ValeurMarchee(t, new Argent(0, getDeviseProche(t))));
   }
 
   public boolean estVendue() {

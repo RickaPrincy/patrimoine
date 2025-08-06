@@ -42,19 +42,4 @@ public class InformationDeVente implements Serializable {
   public boolean estVendue() {
     return valeurDeVente != null && dateDeVente != null && compteBeneficiaire != null;
   }
-
-  public void confirmeVente(
-      Possession possessionVendue,
-      Argent valeurDeVente,
-      LocalDate dateDeVente,
-      Compte compteBeneficiaire) {
-    this.valeurDeVente = valeurDeVente;
-    this.dateDeVente = dateDeVente;
-    this.compteBeneficiaire = compteBeneficiaire;
-    new FluxArgent(
-        String.format("Vente de %s", possessionVendue.nom()),
-        compteBeneficiaire,
-        dateDeVente,
-        valeurDeVente);
-  }
 }

@@ -125,8 +125,13 @@ public abstract sealed class Possession extends Objectivable
 
   @Override
   public void vendre(Argent valeurDeVente, LocalDate dateDeVente, Compte compteBeneficiaire) {
-    if ((typeAgregat() != TypeAgregat.IMMOBILISATION) && (typeAgregat() != TypeAgregat.ENTREPRISE))
-      throw new UnsupportedOperationException("Impossible de vendre ce type d'agrégat");
-    informationDeVente.confirmeVente(this, valeurDeVente, dateDeVente, compteBeneficiaire);
+    informationDeVente.setValeurDeVente(valeurDeVente);
+    informationDeVente.setDateDeVente(dateDeVente);
+    informationDeVente.setCompteBeneficiaire(compteBeneficiaire);
+    new FluxArgent(
+        String.format("Vente de %s", this.nom()),
+        compteBeneficiaire,
+        dateDeVente,
+        valeurDeVente);
   }
 }

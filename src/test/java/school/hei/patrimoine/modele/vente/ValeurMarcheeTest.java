@@ -35,6 +35,6 @@ class ValeurMarcheeTest {
             dateValeurMarchee,
             valeurPcInitiale.minus(Argent.ariary(20_000), dateValeurMarchee));
 
-    assertEquals(pc.getValeurMarche(dateValeurMarchee.plusDays(1)), subject);
+    assertEquals(subject, pc.getValeurMarche(dateValeurMarchee.plusDays(1)));
   }
 }

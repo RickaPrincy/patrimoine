@@ -9,8 +9,6 @@ import lombok.Getter;
 import lombok.Setter;
 import school.hei.patrimoine.modele.Argent;
 import school.hei.patrimoine.modele.possession.Compte;
-import school.hei.patrimoine.modele.possession.FluxArgent;
-import school.hei.patrimoine.modele.possession.Possession;
 
 @Getter
 @Setter

@@ -50,9 +50,9 @@ public abstract sealed class Possession extends Objectivable
   }
 
   public Argent valeurComptable() {
-      if (!t.isBefore(getDateDeVente()) && getDateDeVente() != null) {
-          return new Argent(0, devise());
-      }
+    if (!t.isBefore(getDateDeVente()) && getDateDeVente() != null) {
+      return new Argent(0, devise());
+    }
     return valeurComptable;
   }
 
@@ -126,9 +126,6 @@ public abstract sealed class Possession extends Objectivable
     informationDeVente.setDateDeVente(dateDeVente);
     informationDeVente.setCompteBeneficiaire(compteBeneficiaire);
     new FluxArgent(
-        String.format("Vente de %s", this.nom()),
-        compteBeneficiaire,
-        dateDeVente,
-        valeurDeVente);
+        String.format("Vente de %s", this.nom()), compteBeneficiaire, dateDeVente, valeurDeVente);
   }
 }

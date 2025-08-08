@@ -5,15 +5,16 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
+
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import school.hei.patrimoine.modele.Argent;
 import school.hei.patrimoine.modele.possession.Compte;
-import school.hei.patrimoine.modele.possession.FluxArgent;
-import school.hei.patrimoine.modele.possession.Possession;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class InformationDeVente implements Serializable {
   private final Set<ValeurMarchee> valeurMarches;
   private Argent valeurDeVente;

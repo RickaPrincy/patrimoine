@@ -21,8 +21,8 @@ public class VariableContainer {
     this.values.put(variable.type(), container);
   }
 
-  public void remove(String variableName,  VariableType variableType) {
-    var retrieved = find(variableName,  variableType);
+  public void remove(String variableName, VariableType variableType) {
+    var retrieved = find(variableName, variableType);
 
     if (!retrieved.isPresent()) {
       throw new IllegalArgumentException(

@@ -129,9 +129,6 @@ public abstract sealed class Possession extends Objectivable
     informationDeVente.setDateDeVente(dateDeVente);
     informationDeVente.setCompteBeneficiaire(compteBeneficiaire);
     new FluxArgent(
-        String.format("Vente de %s", this.nom()),
-        compteBeneficiaire,
-        dateDeVente,
-        valeurDeVente);
+        String.format("Vente de %s", this.nom()), compteBeneficiaire, dateDeVente, valeurDeVente);
   }
 }

@@ -26,14 +26,15 @@ public class MaterielVisitor implements SimpleVisitor<PossedeMaterielContext, Ma
     LocalDate dateAcquisition =
         nonNull(ctx.dateObtention) ? this.variableVisitor.asDate(ctx.dateObtention) : t;
 
-    Materiel materiel =  new Materiel(
-        nom,
-        dateAcquisition,
-        t,
-        valeurComptable,
-        tauxDAppreciation / 100 * facteurTauxDAppreciation);
+    Materiel materiel =
+        new Materiel(
+            nom,
+            dateAcquisition,
+            t,
+            valeurComptable,
+            tauxDAppreciation / 100 * facteurTauxDAppreciation);
 
-    variableVisitor.addToScope(nom, VariableType.MATERIEL,materiel);
+    variableVisitor.addToScope(nom, VariableType.MATERIEL, materiel);
 
     return materiel;
   }

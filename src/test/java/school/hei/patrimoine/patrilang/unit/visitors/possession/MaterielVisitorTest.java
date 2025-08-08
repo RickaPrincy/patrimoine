@@ -7,7 +7,6 @@ import static school.hei.patrimoine.patrilang.modele.variable.VariableType.DATE;
 import static school.hei.patrimoine.patrilang.modele.variable.VariableType.MATERIEL;
 
 import java.time.LocalDate;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import school.hei.patrimoine.modele.possession.Materiel;

@@ -14,8 +14,7 @@ public enum VariableType {
   CREANCE("Créances"),
   DETTE("Dettes"),
   PERSONNE_MORALE("PersonnesMorales"),
-  MATERIEL("Materiel")
-  ;
+  MATERIEL("Materiel");
 
   private final String value;
 

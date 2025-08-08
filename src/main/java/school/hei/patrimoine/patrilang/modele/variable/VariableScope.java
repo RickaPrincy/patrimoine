@@ -41,7 +41,7 @@ public record VariableScope(VariableContainer container, Optional<VariableScope>
     this.container.add(new Variable(name, type, value));
   }
 
-  public <T> void remove(String name,  VariableType type) {
+  public <T> void remove(String name, VariableType type) {
     this.container.remove(name, type);
   }
 }

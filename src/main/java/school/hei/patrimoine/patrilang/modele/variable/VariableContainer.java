@@ -21,6 +21,17 @@ public class VariableContainer {
     this.values.put(variable.type(), container);
   }
 
+  public void remove(String variableName,  VariableType variableType) {
+    var retrieved = find(variableName,  variableType);
+
+    if (!retrieved.isPresent()) {
+      throw new IllegalArgumentException(
+          "Le variable " + variableName + " de type " + variableType + " n'existe pas");
+    }
+
+    this.values.remove(variableType);
+  }
+
   public Optional<Variable<?>> find(String name, VariableType type) {
     var container = this.values.getOrDefault(type, new HashSet<>());
     return container.stream().filter(variable -> variable.name().equals(name)).findFirst();

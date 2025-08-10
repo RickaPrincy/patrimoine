@@ -66,4 +66,14 @@ public sealed class Compte extends Possession permits Dette, Creance {
   void addFinancés(FluxArgent fluxArgent) {
     fluxArgents.add(fluxArgent);
   }
+
+  @Override
+  public Argent valeurActuelle(LocalDate date) {
+    return projectionFuture(date).valeurComptable();
+  }
+
+  @Override
+  public Argent valeurActuelle() {
+    return valeurActuelle(LocalDate.now());
+  }
 }

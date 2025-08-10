@@ -158,6 +158,8 @@ operation
     |   rembourserDette
     |   correction
     |   objectif
+    |   valeurMarche
+    |   vente
     |   operationTemplateCall
     |   ligneVariableDeclaration
     |   ligneCasOperations
@@ -199,6 +201,15 @@ possedeMateriel
 
 rembourserDette
     :   MUL id COMMA? dateValue=variable COMMA? MOT_REMBOURSER dette=variable MOT_DE rembourseur=variable MOT_AVEC creance=variable MOT_DE rembourse=variable MOT_VALANT valeurComptable=variable
+    ;
+
+valeurMarche
+    :   MUL id COMMA? dateValue=variable COMMA? MOT_VALEUR_MARCHE_DE montant=variable MOT_POUR possessionNom=variable
+    ;
+
+
+vente
+    :   MUL id COMMA? MOT_VENDRE possessionNom=variable MOT_A montant=variable COMMA? MOT_LE dateValue=variable COMMA? MOT_VERSER_DANS compteBeneficiaire=variable
     ;
 
 /* -------------------- Commun --------------------  */

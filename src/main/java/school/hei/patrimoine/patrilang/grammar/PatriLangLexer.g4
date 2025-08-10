@@ -154,10 +154,23 @@ MATERIEL_APPRECIATION
 MOT_ANNUELLEMENT_DE
     :   'annuellement de'
     ;
+MOT_VENTE_DE
+    : 'vente de'
+    ;
+MOT_POUR_COMPTE
+    : 'pour compte'
+    ;
 PERCENT
     :   '%'
     ;
-
+MOT_VENDRE
+    :   'Vendre'
+    |   'vendre'
+    ;
+MOT_VERSER_DANS
+    :   'verser dans'
+    |   'Verser dans'
+    ;
 /* -------------------- Commun --------------------  */
 /* Date */
 MOT_LE
@@ -166,6 +179,10 @@ MOT_LE
     ;
 MOT_DU
     :   'du'
+    ;
+MOT_A
+    :   'à'
+    |   'a'
     ;
 
 MOIS
@@ -236,6 +253,10 @@ MOT_DEVISE_EN
     ;
 MOT_VALANT
     :   'valant'
+    ;
+MOT_VALEUR_MARCHE_DE
+    :   'valeur marché de'
+    |   'Valeur Marché de'
     ;
 
 /* Opérateurs */

@@ -35,11 +35,12 @@ public class VariableVisitor implements SimpleVisitor<VariableContext, Variable<
   public VariableVisitor(Optional<VariableScope> parentScope) {
     this.variableScope = new VariableScope(parentScope);
     this.variableExpressionVisitor =
-        new VariableExpressionVisitor(variableScope, this::getVariableDateVisitor);
+            new VariableExpressionVisitor(variableScope, this::getVariableDateVisitor);
     this.variableDateVisitor =
-        new VariableDateVisitor(variableScope, this::getVariableExpressionVisitor);
+            new VariableDateVisitor(variableScope, this::getVariableExpressionVisitor);
     this.variableArgentVisitor =
-        new VariableArgentVisitor(variableScope, variableExpressionVisitor, variableDateVisitor);
+            new VariableArgentVisitor(
+                    variableScope, this::getVariableExpressionVisitor, this::getVariableDateVisitor);
   }
 
   public Cas asCas(VariableContext ctx) {
@@ -88,6 +89,10 @@ public class VariableVisitor implements SimpleVisitor<VariableContext, Variable<
     return visitVariableAsExpectedType(List.of(Possession.class), ctx);
   }
 
+  public Materiel asMateriel(VariableContext ctx) {
+    return visitVariableAsExpectedType(List.of(Materiel.class), ctx);
+  }
+
   public <T> void addToScope(String name, VariableType type, T value) {
     this.variableScope.add(name, type, value);
   }
@@ -119,13 +124,13 @@ public class VariableVisitor implements SimpleVisitor<VariableContext, Variable<
   }
 
   private <T> T visitVariableAsExpectedType(List<Class<?>> expectedTypes, VariableContext ctx) {
-    var variable = (Variable) this.apply(ctx);
+    var variable = (Variable<?>) this.apply(ctx);
     var isExpectedType =
-        expectedTypes.stream().anyMatch(expectedType -> expectedType.isInstance(variable.value()));
+            expectedTypes.stream().anyMatch(expectedType -> expectedType.isInstance(variable.value()));
 
     if (!isExpectedType) {
       throw new IllegalArgumentException(
-          "La variable " + variable.name() + " n'est pas une des types: " + expectedTypes);
+              "La variable " + variable.name() + " n'est pas une des types: " + expectedTypes);
     }
 
     return (T) variable.value();

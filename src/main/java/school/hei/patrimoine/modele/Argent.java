@@ -12,7 +12,6 @@ import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-@Getter
 @ToString
 @AllArgsConstructor
 public class Argent implements Serializable {
@@ -28,10 +27,10 @@ public class Argent implements Serializable {
     if (o == null || getClass() != o.getClass()) return false;
     Argent argent = (Argent) o;
     return Objects.equals(devise, argent.devise)
-        &&
-        // we are only interested in major unit equality
-        // eg: cents in EUR does NOT interest us
-        abs(montant - argent.montant) < 1;
+            &&
+            // we are only interested in major unit equality
+            // eg: cents in EUR does NOT interest us
+            abs(montant - argent.montant) < 1;
   }
 
   @Override
@@ -49,11 +48,15 @@ public class Argent implements Serializable {
 
   public Argent convertir(Devise autreDevise, LocalDate t) {
     return new Argent(
-        (montant * devise.valeurEnAriary(t)) / autreDevise.valeurEnAriary(t), autreDevise);
+            (montant * devise.valeurEnAriary(t)) / autreDevise.valeurEnAriary(t), autreDevise);
   }
 
   public Argent mult(double d) {
     return new Argent(montant * d, devise);
+  }
+
+  public Argent div(double d) {
+    return new Argent(montant / d, devise);
   }
 
   public Argent minus(Argent that, LocalDate t) {

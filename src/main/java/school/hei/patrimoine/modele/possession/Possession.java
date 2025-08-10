@@ -19,8 +19,8 @@ import school.hei.patrimoine.modele.vente.Vendable;
 @ToString
 @EqualsAndHashCode(callSuper = false)
 public abstract sealed class Possession extends Objectivable
-    implements Serializable, Vendable /*note(no-serializable)*/
-    permits AchatMaterielAuComptant,
+        implements Serializable, Vendable /*note(no-serializable)*/
+        permits AchatMaterielAuComptant,
         Compte,
         CompteCorrection,
         Correction,
@@ -49,13 +49,13 @@ public abstract sealed class Possession extends Objectivable
   }
 
   public Possession(
-      String nom,
-      LocalDate t,
-      Argent valeurComptable,
-      Argent valeurMarche,
-      LocalDate dateVente,
-      Argent prixVente,
-      Compte compteBeneficiaire) {
+          String nom,
+          LocalDate t,
+          Argent valeurComptable,
+          Argent valeurMarche,
+          LocalDate dateVente,
+          Argent prixVente,
+          Compte compteBeneficiaire) {
     super();
     this.nom = nom;
     this.t = t;
@@ -81,8 +81,8 @@ public abstract sealed class Possession extends Objectivable
   public void addValeurMarche(LocalDate date, Argent valeur) {
     if (typeAgregat() != IMMOBILISATION && typeAgregat() != ENTREPRISE) {
       throw new IllegalArgumentException(
-          "Seules les possessions de type IMMOBILISATION ou ENTREPRISE peuvent avoir une valeur de"
-              + " marché.");
+              "Seules les possessions de type IMMOBILISATION ou ENTREPRISE peuvent avoir une valeur de"
+                      + " marché.");
     }
     historiqueValeurMarche.put(date, valeur);
   }
@@ -135,14 +135,11 @@ public abstract sealed class Possession extends Objectivable
   public void vendre(LocalDate date, Argent prix, Compte compteBeneficiaire) {
     if (this.dateVente != null) {
       throw new IllegalStateException(
-          "La possession '" + nom + "' est déjà vendue le " + dateVente);
+              "La possession '" + nom + "' est déjà vendue le " + dateVente);
     }
     if (date.isBefore(t)) {
       throw new IllegalArgumentException(
-          "La date de vente ne peut pas être antérieure à l'acquisition (" + t + ")");
-    }
-    if (prix == null || prix.getMontant() <= 0) {
-      throw new IllegalArgumentException("Le prix de vente doit être positif.");
+              "La date de vente ne peut pas être antérieure à l'acquisition (" + t + ")");
     }
     this.dateVente = date;
     this.prixVente = prix;

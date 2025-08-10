@@ -141,9 +141,6 @@ public abstract sealed class Possession extends Objectivable
       throw new IllegalArgumentException(
           "La date de vente ne peut pas être antérieure à l'acquisition (" + t + ")");
     }
-    if (prix == null || prix.getMontant() <= 0) {
-      throw new IllegalArgumentException("Le prix de vente doit être positif.");
-    }
     this.dateVente = date;
     this.prixVente = prix;
     this.compteBeneficiaire = compteBeneficiaire;

@@ -26,26 +26,26 @@ public class VariableArgentVisitorTest {
   @BeforeEach
   void set_up() {
     subject =
-            new VariableArgentVisitor(
+        new VariableArgentVisitor(
+            variableVisitor.getVariableScope(),
+            () ->
+                new VariableExpressionVisitor(
+                    variableVisitor.getVariableScope(),
+                    () -> new VariableDateVisitor(variableVisitor.getVariableScope(), () -> null)),
+            () ->
+                new VariableDateVisitor(
                     variableVisitor.getVariableScope(),
                     () ->
-                            new VariableExpressionVisitor(
-                                    variableVisitor.getVariableScope(),
-                                    () -> new VariableDateVisitor(variableVisitor.getVariableScope(), () -> null)),
-                    () ->
-                            new VariableDateVisitor(
-                                    variableVisitor.getVariableScope(),
-                                    () ->
-                                            new VariableExpressionVisitor(
-                                                    variableVisitor.getVariableScope(), () -> null)));
+                        new VariableExpressionVisitor(
+                            variableVisitor.getVariableScope(), () -> null)));
 
     visitor =
-            new UnitTestVisitor() {
-              @Override
-              public Argent visitArgent(ArgentContext ctx) {
-                return subject.apply(ctx);
-              }
-            };
+        new UnitTestVisitor() {
+          @Override
+          public Argent visitArgent(ArgentContext ctx) {
+            return subject.apply(ctx);
+          }
+        };
   }
 
   private Argent parse_and_visit(String input) {
@@ -59,7 +59,7 @@ public class VariableArgentVisitorTest {
 
     var dateEvaluation = LocalDate.of(2024, 7, 7);
     var expected =
-            ariary(400).minus(ariary(300), dateEvaluation).add(ariary(300), dateEvaluation).mult(2);
+        ariary(400).minus(ariary(300), dateEvaluation).add(ariary(300), dateEvaluation).mult(2);
     assertEquals(expected, actual);
   }
 
@@ -172,7 +172,7 @@ public class VariableArgentVisitorTest {
 
     var dateEvaluation = LocalDate.of(2024, 1, 1);
     var expected =
-            ariary(100).add(ariary(200), dateEvaluation).minus(ariary(50), dateEvaluation).mult(2);
+        ariary(100).add(ariary(200), dateEvaluation).minus(ariary(50), dateEvaluation).mult(2);
     assertEquals(expected, actual);
   }
 
@@ -209,10 +209,10 @@ public class VariableArgentVisitorTest {
 
     var dateEvaluation = LocalDate.of(2024, 12, 12);
     var expected =
-            ariary(50)
-                    .add(ariary(25).mult(3), dateEvaluation)
-                    .div(5)
-                    .minus(ariary(10).add(ariary(5), dateEvaluation), dateEvaluation);
+        ariary(50)
+            .add(ariary(25).mult(3), dateEvaluation)
+            .div(5)
+            .minus(ariary(10).add(ariary(5), dateEvaluation), dateEvaluation);
     assertEquals(expected, actual);
   }
 
@@ -233,10 +233,10 @@ public class VariableArgentVisitorTest {
 
     var dateEvaluation = LocalDate.of(2024, 8, 8);
     var expected =
-            euro(2)
-                    .add(euro(3), dateEvaluation)
-                    .minus(euro(3), dateEvaluation)
-                    .add(euro(4).div(2), dateEvaluation);
+        euro(2)
+            .add(euro(3), dateEvaluation)
+            .minus(euro(3), dateEvaluation)
+            .add(euro(4).div(2), dateEvaluation);
     assertEquals(expected, actual);
   }
 
@@ -249,12 +249,12 @@ public class VariableArgentVisitorTest {
   @Test
   void very_complex_long_expression_with_argent() {
     var input =
-            "(4000Ar + (-(-8000Ar)) - 4000Ar * 2 + 4000Ar) * 3 / 3 * 2 / 2 évalué le 12 Janvier 2025";
+        "(4000Ar + (-(-8000Ar)) - 4000Ar * 2 + 4000Ar) * 3 / 3 * 2 / 2 évalué le 12 Janvier 2025";
     var actual = parse_and_visit(input);
 
     var dateEvaluation = LocalDate.of(2025, JANUARY, 12);
     var expected =
-            ariary(4_000).add(ariary(8000), dateEvaluation).minus(ariary(4000).mult(2), dateEvaluation);
+        ariary(4_000).add(ariary(8000), dateEvaluation).minus(ariary(4000).mult(2), dateEvaluation);
     assertEquals(expected, actual);
   }
 }

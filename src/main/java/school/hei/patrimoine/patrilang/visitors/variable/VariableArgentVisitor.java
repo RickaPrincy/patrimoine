@@ -39,16 +39,16 @@ public class VariableArgentVisitor implements SimpleVisitor<ArgentContext, Argen
 
     if (evaluationDate == null) {
       boolean hasPlusOrMinus =
-              ctx.children.stream()
-                      .filter(child -> child instanceof TerminalNode)
-                      .map(child -> (TerminalNode) child)
-                      .anyMatch(
-                              t ->
-                                      t.getSymbol().getType() == PatriLangParser.PLUS
-                                              || t.getSymbol().getType() == PatriLangParser.MOINS);
+          ctx.children.stream()
+              .filter(child -> child instanceof TerminalNode)
+              .map(child -> (TerminalNode) child)
+              .anyMatch(
+                  t ->
+                      t.getSymbol().getType() == PatriLangParser.PLUS
+                          || t.getSymbol().getType() == PatriLangParser.MOINS);
       if (hasPlusOrMinus) {
         throw new IllegalArgumentException(
-                "Une date d'évaluation est obligatoire lorsqu'il y a un '+' ou '-'.");
+            "Une date d'évaluation est obligatoire lorsqu'il y a un '+' ou '-'.");
       }
       evaluationDate = LocalDate.now();
     }
@@ -103,7 +103,7 @@ public class VariableArgentVisitor implements SimpleVisitor<ArgentContext, Argen
   }
 
   private Argent visitArgentMultiplicationExpr(
-          ArgentMultiplicationExprContext ctx, LocalDate evaluationDate) {
+      ArgentMultiplicationExprContext ctx, LocalDate evaluationDate) {
     Argent base = visitAtomArgent(ctx.atomArgent(), evaluationDate);
 
     for (int i = 0; i < ctx.expression().size(); i++) {
@@ -131,10 +131,10 @@ public class VariableArgentVisitor implements SimpleVisitor<ArgentContext, Argen
         yield new Argent(valeur, devise);
       }
       case PatriLangParser.ParenArgentExprContext parenCtx ->
-              apply(parenCtx.argent(), evaluationDate);
+          apply(parenCtx.argent(), evaluationDate);
       default ->
-              throw new UnsupportedOperationException(
-                      "Type d'atomArgent non supporté : " + ctx.getText());
+          throw new UnsupportedOperationException(
+              "Type d'atomArgent non supporté : " + ctx.getText());
     };
   }
 }

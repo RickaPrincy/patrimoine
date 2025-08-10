@@ -39,7 +39,8 @@ public class VariableVisitor implements SimpleVisitor<VariableContext, Variable<
     this.variableDateVisitor =
         new VariableDateVisitor(variableScope, this::getVariableExpressionVisitor);
     this.variableArgentVisitor =
-        new VariableArgentVisitor(variableScope, variableExpressionVisitor, variableDateVisitor);
+        new VariableArgentVisitor(
+            variableScope, this::getVariableExpressionVisitor, this::getVariableDateVisitor);
   }
 
   public Cas asCas(VariableContext ctx) {
@@ -88,6 +89,10 @@ public class VariableVisitor implements SimpleVisitor<VariableContext, Variable<
     return visitVariableAsExpectedType(List.of(Possession.class), ctx);
   }
 
+  public Materiel asMateriel(VariableContext ctx) {
+    return visitVariableAsExpectedType(List.of(Materiel.class), ctx);
+  }
+
   public <T> void addToScope(String name, VariableType type, T value) {
     this.variableScope.add(name, type, value);
   }
@@ -119,7 +124,7 @@ public class VariableVisitor implements SimpleVisitor<VariableContext, Variable<
   }
 
   private <T> T visitVariableAsExpectedType(List<Class<?>> expectedTypes, VariableContext ctx) {
-    var variable = (Variable) this.apply(ctx);
+    var variable = (Variable<?>) this.apply(ctx);
     var isExpectedType =
         expectedTypes.stream().anyMatch(expectedType -> expectedType.isInstance(variable.value()));
 

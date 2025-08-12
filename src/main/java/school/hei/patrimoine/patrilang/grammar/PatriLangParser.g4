@@ -158,6 +158,8 @@ operation
     |   rembourserDette
     |   correction
     |   objectif
+    |   valeurMarche
+    |   vente
     |   operationTemplateCall
     |   ligneVariableDeclaration
     |   ligneCasOperations
@@ -201,6 +203,14 @@ rembourserDette
     :   MUL id COMMA? dateValue=variable COMMA? MOT_REMBOURSER dette=variable MOT_DE rembourseur=variable MOT_AVEC creance=variable MOT_DE rembourse=variable MOT_VALANT valeurComptable=variable
     ;
 
+valeurMarche
+    :   MUL id COMMA? dateValue=variable COMMA? MOT_VALEUR_MARCHE_DE montant=variable MOT_POUR possessionNom=variable
+    ;
+
+vente
+    :   MUL id COMMA? MOT_VENDRE possessionNom=variable MOT_A montant=variable COMMA? MOT_LE dateValue=variable COMMA? MOT_VERSER_DANS compteBeneficiaire=variable
+    ;
+
 /* -------------------- Commun --------------------  */
 sousTitre
     :   HASHES HASHES HASHES? nom=text COMMA? dateValue=variable COMMA? MOT_DEVISE_EN devise
@@ -226,12 +236,19 @@ variable
     ;
 
 argent
-    :   lhs=argentValue  ((PLUS | MOINS) rhs=argentValue MOT_EVALUER date)?
+    :   argentMultiplicationExpr ((PLUS | MOINS) argentMultiplicationExpr)*
+        (MOT_EVALUER dateValue=date)?
     ;
 
-argentValue
-    :   expression devise
-    |   ARGENTS_VARIABLE
+
+argentMultiplicationExpr
+    :   atomArgent( (MUL | DIV) expression )*
+    ;
+
+atomArgent
+    :   LPAREN argent RPAREN                        # ParenArgentExpr
+    |   expression devise                           # MontantArgentExpr
+    |   ARGENTS_VARIABLE                            # VariableArgentExpr
     ;
 
 dateDelta

@@ -5,4 +5,4 @@
 * Devise en Ar
 
 # Possesseurs
-* Personnes:Vaninah (50Ar + sggggg)
+* Personnes:Vaninah (400Ar + s)

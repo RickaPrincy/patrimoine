@@ -5,8 +5,7 @@ import static school.hei.patrimoine.patrilang.antlr.PatriLangParser.DocumentCont
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.*;
 import school.hei.patrimoine.cas.Cas;
 import school.hei.patrimoine.cas.CasSet;
 import school.hei.patrimoine.patrilang.antlr.PatriLangLexer;

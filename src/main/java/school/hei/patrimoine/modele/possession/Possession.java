@@ -42,6 +42,15 @@ public abstract sealed class Possession extends Objectivable
     this.informationDeVente = new InformationDeVente();
   }
 
+  public Possession(
+      String nom, LocalDate t, Argent valeurComptable, InformationDeVente informationDeVente) {
+    super();
+    this.nom = nom;
+    this.t = t;
+    this.valeurComptable = valeurComptable;
+    this.informationDeVente = informationDeVente;
+  }
+
   public CompteCorrection getCompteCorrection() {
     if (compteCorrection == null) {
       compteCorrection = new CompteCorrection(nom, valeurComptable.devise());

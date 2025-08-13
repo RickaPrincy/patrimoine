@@ -50,7 +50,7 @@ public abstract sealed class Possession extends Objectivable
   }
 
   public Argent valeurComptable() {
-    if (!t.isBefore(getDateDeVente()) && getDateDeVente() != null) {
+    if (getDateDeVente() != null && !t.isBefore(getDateDeVente())) {
       return new Argent(0, devise());
     }
     return valeurComptable;

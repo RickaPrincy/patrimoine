@@ -36,15 +36,15 @@ public class VenteVisitorTest {
     variableVisitor.addToScope(
         "donut",
         MATERIEL,
-        new Materiel("donut", LocalDate.of(2025, 1, 1), LocalDate.now(), ariary(5_000), 0)
-    );
+        new Materiel("donut", LocalDate.of(2025, 1, 1), LocalDate.now(), ariary(5_000), 0));
 
     var input =
         "*`ventePossession`, le 01 du 01-2025, vente de Trésoreries:monCompte pour 300000Ar vers"
             + " Trésoreries:monCompte";
 
-    assertDoesNotThrow(() -> {
-      visitor.visit(input, PatriLangParser::vente);
-    });
+    assertDoesNotThrow(
+        () -> {
+          visitor.visit(input, PatriLangParser::vente);
+        });
   }
 }

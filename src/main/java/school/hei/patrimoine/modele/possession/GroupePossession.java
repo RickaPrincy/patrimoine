@@ -24,17 +24,22 @@ public final class GroupePossession extends Possession {
     typeAgregat(possessions); // sanity check: fails if set is inconsistent
   }
 
-    public GroupePossession(String nom, Devise devise, LocalDate t, Set<Possession> possessions, InformationDeVente informationDeVente) {
-        super(
-                nom,
-                t,
-                possessions.stream()
-                        .map(Possession::valeurComptable)
-                        .reduce(new Argent(0, devise), (a1, a2) -> a1.add(a2, t)),
-                informationDeVente);
-        this.possessions = possessions;
-        typeAgregat(possessions); // sanity check: fails if set is inconsistent
-    }
+  public GroupePossession(
+      String nom,
+      Devise devise,
+      LocalDate t,
+      Set<Possession> possessions,
+      InformationDeVente informationDeVente) {
+    super(
+        nom,
+        t,
+        possessions.stream()
+            .map(Possession::valeurComptable)
+            .reduce(new Argent(0, devise), (a1, a2) -> a1.add(a2, t)),
+        informationDeVente);
+    this.possessions = possessions;
+    typeAgregat(possessions); // sanity check: fails if set is inconsistent
+  }
 
   @Override
   public GroupePossession projectionFuture(LocalDate tFutur) {
@@ -43,7 +48,7 @@ public final class GroupePossession extends Possession {
         valeurComptable.devise(),
         tFutur,
         possessions.stream().map(p -> p.projectionFuture(tFutur)).collect(toSet()),
-            informationDeVente);
+        informationDeVente);
   }
 
   @Override

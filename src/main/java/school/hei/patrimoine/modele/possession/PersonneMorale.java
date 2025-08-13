@@ -26,7 +26,7 @@ public final class PersonneMorale extends Possession {
         devise(),
         tFutur,
         personne.patrimoine(devise(), tFutur).getPossessions(),
-            informationDeVente);
+        informationDeVente);
   }
 
   @Override

@@ -8,6 +8,7 @@ import static school.hei.patrimoine.patrilang.modele.variable.VariableType.MATER
 
 import java.time.LocalDate;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import school.hei.patrimoine.modele.possession.Materiel;
 import school.hei.patrimoine.patrilang.antlr.PatriLangParser;
@@ -17,7 +18,7 @@ import school.hei.patrimoine.patrilang.visitors.variable.VariableVisitor;
 
 class MaterielVisitorTest {
   private static final LocalDate AJD = LocalDate.of(2025, 6, 23);
-  private static final VariableVisitor variableVisitor = new VariableVisitor();
+  private static VariableVisitor variableVisitor = new VariableVisitor();
 
   MaterielVisitor subject = new MaterielVisitor(variableVisitor);
 
@@ -35,7 +36,8 @@ class MaterielVisitorTest {
 
   @AfterEach
   void setUp() {
-    variableVisitor.removeFromScope("ordinateur", MATERIEL);
+    variableVisitor = new VariableVisitor();
+    variableVisitor.addToScope("ajd", DATE, AJD);
   }
 
   @Test

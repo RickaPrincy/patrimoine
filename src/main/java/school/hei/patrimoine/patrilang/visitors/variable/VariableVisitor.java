@@ -92,10 +92,6 @@ public class VariableVisitor implements SimpleVisitor<VariableContext, Variable<
     this.variableScope.add(name, type, value);
   }
 
-  public <T> void removeFromScope(String name, VariableType type) {
-    this.variableScope.remove(name, type);
-  }
-
   @Override
   public Variable<?> apply(VariableContext ctx) {
     if (nonNull(ctx.argent())) {

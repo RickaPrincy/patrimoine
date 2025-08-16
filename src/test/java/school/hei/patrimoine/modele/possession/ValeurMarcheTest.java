@@ -1,13 +1,16 @@
 package school.hei.patrimoine.modele.possession;
 
+import static java.time.Month.JUNE;
 import static org.junit.jupiter.api.Assertions.*;
+import static school.hei.patrimoine.modele.Argent.ariary;
 
 import java.time.LocalDate;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import school.hei.patrimoine.modele.Argent;
 import school.hei.patrimoine.modele.Devise;
-import school.hei.patrimoine.modele.ValeurMarche.ValeurMarche;
+import school.hei.patrimoine.modele.vente.ValeurMarche;
 
 class ValeurMarcheTest {
 
@@ -39,19 +42,19 @@ class ValeurMarcheTest {
                 LocalDate.of(2023, 6, 1),
                 new Argent(2_500, Devise.MGA));
 
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, executable);
-    Materiel materiel =
+    assertThrows(IllegalArgumentException.class, executable);
+  }
+
+  @Test
+  void valeur_marchee_futur_should_return_correct_value() {
+    var materiel =
         new Materiel(
-            "Ordinateur",
-            LocalDate.of(2023, 1, 1),
-            LocalDate.of(2023, 1, 1),
-            new Argent(1_000, Devise.MGA),
-            0.05);
-    LocalDate dateValeur = LocalDate.of(2023, 6, 1);
-    Argent valeur = new Argent(1_200, Devise.MGA);
+            "Ordinateur", LocalDate.of(2025, 1, 1), LocalDate.of(2025, 1, 1), ariary(300), 0.05);
+    var date = LocalDate.of(2025, JUNE, 1);
+    var valeurMarchee = ariary(500);
 
-    assertDoesNotThrow(() -> new ValeurMarche(materiel, dateValeur, valeur));
+    assertDoesNotThrow(() -> new ValeurMarche(materiel, date, valeurMarchee));
 
-    assertEquals(valeur, materiel.valeurMarcheALaDate(dateValeur));
+    assertEquals(valeurMarchee, materiel.valeurMarcheeFutur(date.plusDays(1)));
   }
 }

@@ -13,17 +13,14 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import school.hei.patrimoine.modele.objectif.Objectivable;
-import school.hei.patrimoine.modele.possession.Compte;
 import school.hei.patrimoine.modele.possession.CompteCorrection;
-import school.hei.patrimoine.modele.possession.FluxArgent;
 import school.hei.patrimoine.modele.possession.Possession;
-import school.hei.patrimoine.modele.vente.Vendable;
 
 @AllArgsConstructor(access = PRIVATE)
 @EqualsAndHashCode(callSuper = false)
 @Getter
 public final class Patrimoine extends Objectivable
-        implements Serializable, Vendable {
+    implements Serializable /*note(no-serializable)*/ {
 
   private final String nom;
   private final Devise devise;
@@ -31,43 +28,30 @@ public final class Patrimoine extends Objectivable
   private final Map<Personne, Double> possesseurs;
   private final Set<Possession> possessions;
 
-  private LocalDate dateVente;
-  private Argent prixVente;
-  private Compte compteBeneficiaire;
-
   public static Patrimoine of(
-          String nom,
-          Devise devise,
-          LocalDate t,
-          Map<Personne, Double> possesseurs,
-          Set<Possession> possessions) {
-
-    var patrimoine = new Patrimoine(
-            nom,
-            devise,
-            t,
-            possesseurs,
-            withComptesCorrections(possessions),
-            null,
-            null,
-            null
-    );
-
+      String nom,
+      Devise devise,
+      LocalDate t,
+      Map<Personne, Double> possesseurs,
+      Set<Possession> possessions) {
+    var patrimoine =
+        new Patrimoine(nom, devise, t, possesseurs, withComptesCorrections(possessions));
     possesseurs.forEach((possesseur, _taux) -> possesseur.addPatrimoine(patrimoine));
     return patrimoine;
   }
 
   public static Patrimoine of(
-          String nom, Devise devise, LocalDate t, Personne possesseur, Set<Possession> possessions) {
+      String nom, Devise devise, LocalDate t, Personne possesseur, Set<Possession> possessions) {
     return Patrimoine.of(nom, devise, t, Map.of(possesseur, 1.), possessions);
   }
 
   private static Set<Possession> withComptesCorrections(Set<Possession> possessions) {
     var set = new HashSet<Possession>();
-    possessions.forEach(p -> {
-      set.add(p);
-      set.add(p.getCompteCorrection());
-    });
+    possessions.forEach(
+        p -> {
+          set.add(p);
+          set.add(p.getCompteCorrection());
+        });
     return set;
   }
 
@@ -77,22 +61,18 @@ public final class Patrimoine extends Objectivable
 
   public Argent getValeurComptable(Devise autreDevise) {
     return possessions.stream()
-            .filter(not(p -> p instanceof CompteCorrection))
-            .map(p -> p.valeurComptable().convertir(autreDevise, t))
-            .reduce(new Argent(0, autreDevise), (a1, a2) -> a1.add(a2, t));
+        .filter(not(p -> p instanceof CompteCorrection))
+        .map(p -> p.valeurComptable().convertir(autreDevise, t))
+        .reduce(new Argent(0, autreDevise), (a1, a2) -> a1.add(a2, t));
   }
 
   public Patrimoine projectionFuture(LocalDate tFutur) {
     return new Patrimoine(
-            nom,
-            devise,
-            tFutur,
-            possesseurs,
-            possessions.stream().map(p -> p.projectionFuture(tFutur)).collect(toSet()),
-            dateVente,
-            prixVente,
-            compteBeneficiaire
-    );
+        nom,
+        devise,
+        tFutur,
+        possesseurs,
+        possessions.stream().map(p -> p.projectionFuture(tFutur)).collect(toSet()));
   }
 
   public Possession possessionParNom(String nom) {
@@ -109,51 +89,14 @@ public final class Patrimoine extends Objectivable
     return projectionFuture(t).getValeurComptable();
   }
 
-  @Override
-  public void vendre(LocalDate date, Argent prix, Compte compteBeneficiaire) {
-    if (this.dateVente != null) {
-      throw new IllegalStateException("Le patrimoine '" + nom + "' est déjà vendu le " + dateVente);
-    }
-    if (date.isBefore(t)) {
-      throw new IllegalArgumentException(
-              "La date de vente ne peut pas être antérieure à la création du patrimoine (" + t + ")");
-    }
-    this.dateVente = date;
-    this.prixVente = prix;
-    this.compteBeneficiaire = compteBeneficiaire;
-
-    FluxArgent flux = new FluxArgent(
-            "Produit de vente du patrimoine '" + nom + "'",
-            compteBeneficiaire,
-            date,
-            prix
-    );
-    compteBeneficiaire.addFinancés(flux);
-
-    possessions.forEach(p -> {
-      if (p instanceof Vendable) {
-        ((Vendable) p).vendre(date, p.valeurComptable(), compteBeneficiaire);
-      }
-    });
+  public Argent getValeurMarchee() {
+    return getValeurMarchee(devise);
   }
 
-  @Override
-  public boolean estVendue() {
-    return dateVente != null;
-  }
-
-  @Override
-  public boolean estVendue(LocalDate date) {
-    return dateVente != null && !date.isBefore(dateVente);
-  }
-
-  @Override
-  public LocalDate getDateVente() {
-    return dateVente;
-  }
-
-  @Override
-  public Argent getPrixVente() {
-    return prixVente;
+  public Argent getValeurMarchee(Devise devise) {
+    return possessions.stream()
+        .filter(not(p -> p instanceof CompteCorrection))
+        .map(p -> p.valeurMarche().convertir(devise, t))
+        .reduce(new Argent(0, devise), (a1, a2) -> a1.add(a2, t));
   }
 }

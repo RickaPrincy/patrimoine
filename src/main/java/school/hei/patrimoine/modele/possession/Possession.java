@@ -5,8 +5,7 @@ import static school.hei.patrimoine.modele.possession.TypeAgregat.IMMOBILISATION
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.NavigableMap;
-import java.util.TreeMap;
+import java.util.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -34,33 +33,18 @@ public abstract sealed class Possession extends Objectivable
   protected final String nom;
   protected final LocalDate t;
   protected final Argent valeurComptable;
-  protected final NavigableMap<LocalDate, Argent> historiqueValeurMarche = new TreeMap<>();
+  @EqualsAndHashCode.Exclude @ToString.Exclude private CompteCorrection compteCorrection;
+
   protected LocalDate dateVente;
   protected Argent prixVente;
   protected Compte compteBeneficiaire;
-  @EqualsAndHashCode.Exclude @ToString.Exclude private CompteCorrection compteCorrection;
+  protected Map<LocalDate, Argent> historiqueValeurMarche = new HashMap<>();
 
   public Possession(String nom, LocalDate t, Argent valeurComptable) {
     super();
     this.nom = nom;
     this.t = t;
     this.valeurComptable = valeurComptable;
-    this.historiqueValeurMarche.put(t, valeurComptable);
-  }
-
-  public Possession(
-      String nom,
-      LocalDate t,
-      Argent valeurComptable,
-      Argent valeurMarche,
-      LocalDate dateVente,
-      Argent prixVente,
-      Compte compteBeneficiaire) {
-    super();
-    this.nom = nom;
-    this.t = t;
-    this.valeurComptable = valeurComptable;
-    this.historiqueValeurMarche.put(t, valeurMarche);
   }
 
   public CompteCorrection getCompteCorrection() {
@@ -74,10 +58,6 @@ public abstract sealed class Possession extends Objectivable
     return valeurComptable;
   }
 
-  public Argent valeurMarche() {
-    return valeurMarcheALaDate(t);
-  }
-
   public void addValeurMarche(LocalDate date, Argent valeur) {
     if (typeAgregat() != IMMOBILISATION && typeAgregat() != ENTREPRISE) {
       throw new IllegalArgumentException(
@@ -87,19 +67,24 @@ public abstract sealed class Possession extends Objectivable
     historiqueValeurMarche.put(date, valeur);
   }
 
-  public Argent valeurMarcheALaDate(LocalDate date) {
-    if (estVendue(date)) {
+  public Argent valeurMarche() {
+    if (estVendue(t)) {
       return new Argent(0, valeurComptable.devise());
     }
-    LocalDate key = historiqueValeurMarche.floorKey(date);
-    if (key != null) {
-      return historiqueValeurMarche.get(key);
-    }
-    return valeurComptable();
+
+    return historiqueValeurMarche.entrySet().stream()
+        .filter(e -> !e.getKey().isAfter(t))
+        .max(Map.Entry.comparingByKey())
+        .map(Map.Entry::getValue)
+        .orElseGet(this::getValeurComptable);
   }
 
   public final Devise devise() {
     return valeurComptable.devise();
+  }
+
+  public Argent valeurMarcheeFutur(LocalDate date) {
+    return projectionFuture(date).valeurMarche();
   }
 
   public final Argent valeurComptableFuture(LocalDate tFutur) {

@@ -1,4 +1,4 @@
-package school.hei.patrimoine.modele.ValeurMarche;
+package school.hei.patrimoine.modele.vente;
 
 import java.time.LocalDate;
 import school.hei.patrimoine.modele.Argent;

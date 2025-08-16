@@ -8,6 +8,7 @@ public class OperationVisitorFactory {
   public static OperationVisitor make(VariableVisitor variableVisitor, IdVisitor idVisitor) {
     return OperationVisitor.builder()
         .variableVisitor(variableVisitor)
+        .valeurMarcheVisitor(new ValeurMarcheVisitor(variableVisitor))
         .remboursementDetteVisitor(new RemboursementDetteVisitor(variableVisitor, idVisitor))
         .groupPossessionVisitor(new GroupPossessionVisitor(variableVisitor))
         .achatMaterielVisitor(new AchatMaterielVisitor(variableVisitor))

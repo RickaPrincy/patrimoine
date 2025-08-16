@@ -8,7 +8,7 @@ import static school.hei.patrimoine.patrilang.modele.variable.VariableType.TRESO
 
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
-import school.hei.patrimoine.modele.ValeurMarche.ValeurMarche;
+import school.hei.patrimoine.modele.vente.ValeurMarche;
 import school.hei.patrimoine.modele.possession.Compte;
 import school.hei.patrimoine.patrilang.antlr.PatriLangParser;
 import school.hei.patrimoine.patrilang.utils.UnitTestVisitor;

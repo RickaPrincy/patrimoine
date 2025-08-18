@@ -88,4 +88,15 @@ public final class Patrimoine extends Objectivable
   public Argent valeurAObjectifT(LocalDate t) {
     return projectionFuture(t).getValeurComptable();
   }
+
+  public Argent getValeurMarchee() {
+    return getValeurMarchee(devise);
+  }
+
+  public Argent getValeurMarchee(Devise devise) {
+    return possessions.stream()
+        .filter(not(p -> p instanceof CompteCorrection))
+        .map(p -> p.valeurMarche().convertir(devise, t))
+        .reduce(new Argent(0, devise), (a1, a2) -> a1.add(a2, t));
+  }
 }

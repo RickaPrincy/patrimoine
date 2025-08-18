@@ -1,13 +1,6 @@
 package school.hei.patrimoine.visualisation.xchart;
 
-import static java.awt.Color.BLACK;
-import static java.awt.Color.BLUE;
-import static java.awt.Color.DARK_GRAY;
-import static java.awt.Color.GREEN;
-import static java.awt.Color.MAGENTA;
-import static java.awt.Color.RED;
-import static java.awt.Color.WHITE;
-import static java.awt.Color.YELLOW;
+import static java.awt.Color.*;
 import static java.nio.file.Files.createTempFile;
 import static java.util.Comparator.comparing;
 import static java.util.UUID.randomUUID;
@@ -54,6 +47,12 @@ public class GrapheurEvolutionPatrimoine
     seriesParPossession.keySet().stream()
         .sorted(comparing(Possession::nom))
         .forEach(p -> configureSerie(chart, grapheConf, p, dates, seriesParPossession.get(p)));
+    addSerie(
+        chart,
+        "Valeur Marchee",
+        dates,
+        serieComptableTemporelle.serieValeursMarcheesPatrimoine(),
+        new StyleSerie(ORANGE, FAT, CONTINUOUS, false));
     addSerie(
         chart,
         "Patrimoine",

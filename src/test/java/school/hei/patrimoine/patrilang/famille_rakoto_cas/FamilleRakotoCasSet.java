@@ -16,9 +16,9 @@ import school.hei.patrimoine.modele.possession.Creance;
 import school.hei.patrimoine.modele.possession.Dette;
 
 public class FamilleRakotoCasSet extends CasSetSupplier {
-  private static final Argent OBJECTIF_FINAL = ariary(4_884_000);
+  private static final Argent OBJECTIF_FINAL = ariary(4884000);
   private static final LocalDate AJD = LocalDate.of(2025, JANUARY, 10);
-  private static final LocalDate FIN_SIMULATION = LocalDate.of(2025, APRIL, 10);
+  private static final LocalDate FIN_SIMULATION = LocalDate.of(2026, APRIL, 10);
 
   @Override
   public CasSet get() {

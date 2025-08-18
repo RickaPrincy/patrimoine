@@ -16,7 +16,10 @@ public class CasSetAnalyzer implements Consumer<CasSet> {
 
   public static void main(String[] args) {
     new CasSetAnalyzer()
-        .accept(transpileToutCas(".../resources/famille_rakoto_cas/FamilleRakoto.patri.md"));
+        .accept(
+            transpileToutCas(
+                "F:\\patrimoine\\src\\test\\r"
+                    + "esources\\famille_rakoto_cas\\FamilleRakoto.patri.md"));
   }
 
   @Override

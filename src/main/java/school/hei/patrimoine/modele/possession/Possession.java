@@ -1,7 +1,6 @@
 package school.hei.patrimoine.modele.possession;
 
-import static school.hei.patrimoine.modele.possession.TypeAgregat.ENTREPRISE;
-import static school.hei.patrimoine.modele.possession.TypeAgregat.IMMOBILISATION;
+import static school.hei.patrimoine.modele.possession.TypeAgregat.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -59,7 +58,9 @@ public abstract sealed class Possession extends Objectivable
   }
 
   public void addValeurMarche(LocalDate date, Argent valeur) {
-    if (typeAgregat() != IMMOBILISATION && typeAgregat() != ENTREPRISE) {
+    if (typeAgregat() != IMMOBILISATION
+        && typeAgregat() != ENTREPRISE
+        && typeAgregat() != TRESORERIE) {
       throw new IllegalArgumentException(
           "Seules les possessions de type IMMOBILISATION ou ENTREPRISE peuvent avoir une valeur de"
               + " marché.");

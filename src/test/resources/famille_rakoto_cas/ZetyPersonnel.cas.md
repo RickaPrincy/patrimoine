@@ -1,6 +1,6 @@
 # Général
 * Spécifier Dates:ajd + 1 mois et 5 jours
-* Fin de simulation Dates:finSimulation - 1 année 
+* Fin de simulation Dates:finSimulation 
 * Cas de ZetyPersonnel 
 * Devise en Ar
 
@@ -33,5 +33,4 @@
 # Suivi
 * `nouvelObjectif` Le 02 du 02-2025, objectif de 2000000Ar pour Trésoreries:zetyPersonnel
 * `correction1` le 02 du 02-2025, corriger 540000Ar dans Trésoreries:zetyPersonnel
-
-`/* `valeurMarche1`, le 12 septembre 2025, valeur marché de 60_000_000Ar pour Trésoreries:zetyPersonnel */`
+* `valeurMarche1`, le 12 septembre 2025, valeur marché de 60_000_000Ar pour Trésoreries:zetyPersonnel 

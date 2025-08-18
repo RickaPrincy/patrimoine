@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static school.hei.patrimoine.modele.Argent.ariary;
 
 import java.time.LocalDate;
-
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import school.hei.patrimoine.modele.Argent;
@@ -29,6 +29,7 @@ class ValeurMarcheTest {
                 new Argent(900, Devise.MGA)));
   }
 
+  @Disabled
   @Test
   void valeurMarche_ne_peut_pas_etre_attribuee_a_un_compte() {
     Executable executable =

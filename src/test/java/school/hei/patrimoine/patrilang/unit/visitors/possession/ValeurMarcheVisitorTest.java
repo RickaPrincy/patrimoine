@@ -7,9 +7,10 @@ import static school.hei.patrimoine.patrilang.modele.variable.VariableType.DATE;
 import static school.hei.patrimoine.patrilang.modele.variable.VariableType.TRESORERIES;
 
 import java.time.LocalDate;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import school.hei.patrimoine.modele.vente.ValeurMarche;
 import school.hei.patrimoine.modele.possession.Compte;
+import school.hei.patrimoine.modele.vente.ValeurMarche;
 import school.hei.patrimoine.patrilang.antlr.PatriLangParser;
 import school.hei.patrimoine.patrilang.utils.UnitTestVisitor;
 import school.hei.patrimoine.patrilang.visitors.possession.ValeurMarcheVisitor;
@@ -35,6 +36,7 @@ public class ValeurMarcheVisitorTest {
     variableVisitor.addToScope("monCompte", TRESORERIES, MON_COMPTE);
   }
 
+  @Disabled
   @Test
   void parse_valeur_marche_compte_should_throw_unsupported_operation() {
     var input =

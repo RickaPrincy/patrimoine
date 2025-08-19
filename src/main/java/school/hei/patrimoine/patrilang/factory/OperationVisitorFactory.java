@@ -17,6 +17,9 @@ public class OperationVisitorFactory {
         .transferArgentVisitor(new TransferArgentVisitor(variableVisitor, idVisitor))
         .fluxArgentVisitor(new FluxArgentVisitor(variableVisitor, idVisitor))
         .operationTemplateCallVisitor(new OperationTemplateCallVisitor(variableVisitor))
+        .valeurMarcheeVisitor(new ValeurMarcheeVisitor(variableVisitor))
+        .venteVisitor(new VenteVisitor(variableVisitor))
+        .immobilierVisitor(new ImmobilierVisitor(variableVisitor))
         .build();
   }
 

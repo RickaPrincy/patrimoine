@@ -31,6 +31,9 @@ public class OperationVisitor
   private final RemboursementDetteVisitor remboursementDetteVisitor;
   private final GroupPossessionVisitor groupPossessionVisitor;
   private final OperationTemplateCallVisitor operationTemplateCallVisitor;
+  private final ValeurMarcheeVisitor valeurMarcheeVisitor;
+  private final VenteVisitor venteVisitor;
+  private final ImmobilierVisitor immobilierVisitor;
 
   @Override
   public Set<Possession> apply(List<OperationsContext> contexts, VariableVisitor variableVisitor) {
@@ -103,6 +106,24 @@ public class OperationVisitor
       variableVisitor.addToScope(
           nom, type, variableVisitor.apply(ctx.ligneVariableDeclaration().valeur).value());
       return Set.of();
+    }
+
+    if (nonNull(ctx.valeurMarchee())) {
+      this.valeurMarcheeVisitor.apply(ctx.valeurMarchee());
+      return Set.of(
+          variableVisitor.asPossession(ctx.valeurMarchee().possessionAffectee)
+      );
+    }
+
+    if (nonNull(ctx.vente())) {
+      this.venteVisitor.apply(ctx.vente());
+      return Set.of(
+          variableVisitor.asPossession(ctx.vente().possessionAVendre)
+      );
+    }
+
+    if (nonNull(ctx.possedeImmobilier())) {
+      return Set.of(this.immobilierVisitor.apply(ctx.possedeImmobilier())      );
     }
 
     throw new IllegalArgumentException("Opération inconnue");

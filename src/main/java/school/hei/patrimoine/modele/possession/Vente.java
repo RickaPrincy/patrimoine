@@ -32,4 +32,8 @@ public final class Vente extends Possession {
   public TypeAgregat typeAgregat() {
     return TypeAgregat.FLUX;
   }
+
+  public Possession possessionVendu() {
+    return possessionAVendre;
+  }
 }

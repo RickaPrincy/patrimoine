@@ -172,7 +172,24 @@ operation
     |   ligneCasOperations
     |   valeurMarchee
     |   vente
+    |   possedeImmobilier
+    |   acheterImmobilier
     ;
+
+possedeImmobilier
+    :   MUL id COMMA? dateValue=variable COMMA? MOT_POSSEDER immobilierNom=text
+        COMMA? MOT_VALANT valeurComptable=variable
+        (MOT_OBTENU dateObtention=variable)?
+        COMMA? MATERIEL_APPRECIATION MOT_ANNUELLEMENT_DE pourcentageAppreciation=variable PERCENT
+    ;
+
+acheterImmobilier
+    :   MUL id COMMA? dateValue=variable COMMA? MOT_ACHETER immobilierNom=text
+        COMMA? MOT_VALANT valeurComptable=variable
+        COMMA? MOT_DEPUIS compteDebiteurNom=variable
+        COMMA? MATERIEL_APPRECIATION MOT_ANNUELLEMENT_DE pourcentageAppreciation=variable PERCENT
+    ;
+
 
 ligneCasOperations
     :   MUL ENTETE_OPERATIONS MOT_DE variable

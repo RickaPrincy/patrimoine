@@ -21,6 +21,9 @@
 * `remZety2025` `/* Commentaire */` Dates:ajd, entrer 400000Ar vers Trésoreries:zetyLoyerMaison , jusqu'à le 31 du 12-2025 tous les 1 du mois
 * `remRasoa2025` Dates:ajd, entrer 500000Ar vers Trésoreries:rasoaPersonnel , jusqu'à le 31 du 12-2025 tous les 1 du mois
 * `remLita2025` Dates:ajd, entrer 100000Ar vers Trésoreries:litaPersonnel , jusqu'à le 31 du 12-2025 tous les 1 du mois
+## maison , Dates:ajd, devise en Ar
+* `maMaison` Dates:ajd, posséder maison valant 100000000Ar, s'appréciant annuellement de 5%
+* `venteMaison` Dates:ajd + 2 mois, vente de Immobilier:maison pour 120000000Ar vers Trésoreries:zetyPersonnel
  
 ## RevenusLoyer, Dates:ajd, devise en Ar
 * `receptionLoyer + Dates:ajd` Dates:ajd, entrer 1000000Ar vers Trésoreries:loyerMaison , jusqu'à date indéterminée tous les 29 du mois

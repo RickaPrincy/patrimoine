@@ -7,8 +7,8 @@ import static school.hei.patrimoine.patrilang.modele.variable.VariableType.TRESO
 
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
-import school.hei.patrimoine.modele.possession.Immobilier;
 import school.hei.patrimoine.modele.possession.Compte;
+import school.hei.patrimoine.modele.possession.Immobilier;
 import school.hei.patrimoine.modele.possession.Vente;
 import school.hei.patrimoine.patrilang.antlr.PatriLangParser;
 import school.hei.patrimoine.patrilang.utils.UnitTestVisitor;
@@ -17,46 +17,42 @@ import school.hei.patrimoine.patrilang.visitors.variable.VariableVisitor;
 
 public class VenteImmobilierVisitorTest {
 
-    VariableVisitor variableVisitor = new VariableVisitor();
-    VenteVisitor subject = new VenteVisitor(variableVisitor);
+  VariableVisitor variableVisitor = new VariableVisitor();
+  VenteVisitor subject = new VenteVisitor(variableVisitor);
 
-    UnitTestVisitor visitor =
-            new UnitTestVisitor() {
-                @Override
-                public Vente visitVente(PatriLangParser.VenteContext ctx) {
-                    return subject.apply(ctx);
-                }
-            };
+  UnitTestVisitor visitor =
+      new UnitTestVisitor() {
+        @Override
+        public Vente visitVente(PatriLangParser.VenteContext ctx) {
+          return subject.apply(ctx);
+        }
+      };
 
-    @Test
-    void visit_vente_success_for_immobilier() {
+  @Test
+  void visit_vente_success_for_immobilier() {
 
-        variableVisitor.addToScope(
-                "monCompte",
-                TRESORERIES,
-                new Compte("monCompte", LocalDate.of(2025, 1, 1), ariary(100_000))
-        );
+    variableVisitor.addToScope(
+        "monCompte",
+        TRESORERIES,
+        new Compte("monCompte", LocalDate.of(2025, 1, 1), ariary(100_000)));
 
+    variableVisitor.addToScope(
+        "maMaison",
+        IMMOBILIER,
+        new Immobilier(
+            "maMaison",
+            LocalDate.of(2020, 1, 1),
+            LocalDate.of(2030, 1, 1),
+            ariary(50_000_000),
+            0.05));
 
-        variableVisitor.addToScope(
-                "maMaison",
-                IMMOBILIER,
-                new Immobilier(
-                        "maMaison",
-                        LocalDate.of(2020, 1, 1),
-                        LocalDate.of(2030, 1, 1),
-                        ariary(50_000_000),
-                        0.05
-                )
-        );
+    var input =
+        "*`ventePossession`, le 01 du 01-2025, vente de Immobilier:maMaison pour 50000000Ar vers"
+            + " Trésoreries:monCompte";
 
-
-        var input =
-                "*`ventePossession`, le 01 du 01-2025, vente de Immobilier:maMaison pour 50000000Ar vers Trésoreries:monCompte";
-
-
-        assertDoesNotThrow(() -> {
-            visitor.visit(input, PatriLangParser::vente);
+    assertDoesNotThrow(
+        () -> {
+          visitor.visit(input, PatriLangParser::vente);
         });
-    }
+  }
 }

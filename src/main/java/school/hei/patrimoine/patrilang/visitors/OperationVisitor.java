@@ -110,20 +110,16 @@ public class OperationVisitor
 
     if (nonNull(ctx.valeurMarchee())) {
       this.valeurMarcheeVisitor.apply(ctx.valeurMarchee());
-      return Set.of(
-          variableVisitor.asPossession(ctx.valeurMarchee().possessionAffectee)
-      );
+      return Set.of(variableVisitor.asPossession(ctx.valeurMarchee().possessionAffectee));
     }
 
     if (nonNull(ctx.vente())) {
       this.venteVisitor.apply(ctx.vente());
-      return Set.of(
-          variableVisitor.asPossession(ctx.vente().possessionAVendre)
-      );
+      return Set.of(variableVisitor.asPossession(ctx.vente().possessionAVendre));
     }
 
     if (nonNull(ctx.possedeImmobilier())) {
-      return Set.of(this.immobilierVisitor.apply(ctx.possedeImmobilier())      );
+      return Set.of(this.immobilierVisitor.apply(ctx.possedeImmobilier()));
     }
 
     throw new IllegalArgumentException("Opération inconnue");

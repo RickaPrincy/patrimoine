@@ -41,8 +41,8 @@ class CompteVisitorTest {
     @Test
     void parse_compte_different_date() {
 
-        String input = "monAutreCompte, valant 150000Ar le 15 du 02-2025";
-        Compte expected = new Compte("monAutreCompte", LocalDate.of(2025, 2, 15), ariary(150_000));
+        var input = "monAutreCompte, valant 150000Ar le 15 du 02-2025";
+        var expected = new Compte("monAutreCompte", LocalDate.of(2025, 2, 15), ariary(150_000));
         Compte actual = visitor.visit(input, PatriLangParser::compte);
         assertEquals(expected.nom(), actual.nom());
         assertEquals(expected.getDateOuverture(), actual.getDateOuverture());
@@ -51,9 +51,9 @@ class CompteVisitorTest {
 
     @Test
     void parse_compte_valeur_decimal() {
-        String input = "compteDecimal, valant 12345.67Ar le 10 du 01-2025";
+        var input = "compteDecimal, valant 12345.67Ar le 10 du 01-2025";
 
-        Compte expected = new Compte("compteDecimal", LocalDate.of(2025, JANUARY, 10), new school.hei.patrimoine.modele.Argent(12345.67, ariary(0).devise()));
+        var expected = new Compte("compteDecimal", LocalDate.of(2025, JANUARY, 10), new school.hei.patrimoine.modele.Argent(12345.67, ariary(0).devise()));
 
         Compte actual = visitor.visit(input, PatriLangParser::compte);
 

@@ -53,7 +53,7 @@ class AchatMaterielVisitorTest {
   }
   @Test
   void achat_materiel_simple() {
-    String input =
+    var input =
             "`achatOrdinateur` le 01 du 01-2025, acheter ordinateur, valant 300000Ar, depuis Trésoreries:monCompte, s'appréciant annuellement de 1%";
 
     visitor.visit(input, PatriLangParser::acheterMateriel);
@@ -70,7 +70,7 @@ class AchatMaterielVisitorTest {
   }
   @Test
   void achat_materiel_diff_materiel() {
-    String input =
+    var input =
             "`achatEntrprise` le 15 du 02-2025, acheter Entreprise , valant 150000000 Ar, depuis Trésoreries:monCompte, s'appréciant annuellement de 2%";
 
     visitor.visit(input, PatriLangParser::acheterMateriel);

@@ -3,6 +3,9 @@
 package school.hei.patrimoine.patrilang.unit.visitors.possession;
 
 import static java.time.Month.JUNE;
+import static java.util.Calendar.JANUARY;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static school.hei.patrimoine.modele.Argent.ariary;
 import static school.hei.patrimoine.patrilang.antlr.PatriLangParser.FluxArgentEntrerContext;
 import static school.hei.patrimoine.patrilang.antlr.PatriLangParser.FluxArgentSortirContext;
@@ -127,6 +130,7 @@ class FluxVariableArgentVisitorTest {
     FluxArgent actual = visitor.visit(input, PatriLangParser::fluxArgentEntrer);
     assertFluxArgentEquals(expected, actual);
   }
+
 }
 
 

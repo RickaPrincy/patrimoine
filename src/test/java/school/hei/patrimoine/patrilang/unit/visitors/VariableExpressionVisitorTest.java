@@ -94,7 +94,6 @@ class VariableExpressionVisitorTest {
     assertEquals(expected, actual);
   }
 
-  // Nouveaux tests supplémentaires
   @Test
   void should_throw_for_undefined_variable() {
     var input = "Nombres:inconnue";

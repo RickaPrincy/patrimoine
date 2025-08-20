@@ -1,7 +1,6 @@
 package school.hei.patrimoine.patrilang.famille_rakoto_cas;
 
-import static java.time.Month.APRIL;
-import static java.time.Month.JANUARY;
+import static java.time.Month.*;
 import static school.hei.patrimoine.modele.Argent.ariary;
 
 import java.time.LocalDate;

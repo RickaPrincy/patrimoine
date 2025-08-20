@@ -12,6 +12,7 @@ import school.hei.patrimoine.modele.Devise;
 import school.hei.patrimoine.modele.Personne;
 import school.hei.patrimoine.modele.objectif.Objectif;
 import school.hei.patrimoine.modele.possession.*;
+import school.hei.patrimoine.modele.vente.ValeurMarche;
 
 public class ZetyPersonnelCas extends Cas {
   private final Compte zetyPersonnel;
@@ -48,6 +49,7 @@ public class ZetyPersonnelCas extends Cas {
   protected void init() {
     new Objectif(zetyPersonnel, ajd, ariary(1_000_000));
     new FluxArgent("initComptePersonnel", zetyPersonnel, ajd, ariary(1_000_000));
+    new ValeurMarche(zetyPersonnel, LocalDate.of(2025, FEBRUARY, 14), ariary(6_000_000));
   }
 
   @Override

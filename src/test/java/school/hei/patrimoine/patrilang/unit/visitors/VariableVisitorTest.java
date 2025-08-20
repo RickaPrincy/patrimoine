@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import school.hei.patrimoine.modele.Argent;
 import school.hei.patrimoine.modele.Personne;
 import school.hei.patrimoine.modele.possession.Compte;
+import school.hei.patrimoine.modele.possession.Materiel;
 import school.hei.patrimoine.modele.possession.PersonneMorale;
 import school.hei.patrimoine.patrilang.antlr.PatriLangParser;
 import school.hei.patrimoine.patrilang.modele.variable.Variable;
@@ -148,5 +149,18 @@ class VariableVisitorTest {
     var actual = variable.value();
 
     assertEquals(expected, actual);
+  }
+
+  @Test
+  void can_cast_materiel_variable_to_expected_type() {
+    var input = "Materiel:ordinateur";
+    var ajd = LocalDate.of(2025, 7, 29);
+    var expected = new Materiel("ordinateur", ajd, ajd, ariary(200_000), 0.5);
+
+    subject.addToScope(expected.nom(), MATERIEL, expected);
+
+    var actual = (Variable<?>) visitor.visit(input, PatriLangParser::variable);
+
+    assertEquals(expected, actual.value());
   }
 }

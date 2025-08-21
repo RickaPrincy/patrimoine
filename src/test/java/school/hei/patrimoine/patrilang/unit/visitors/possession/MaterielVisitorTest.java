@@ -55,10 +55,10 @@ class MaterielVisitorTest {
     var au1Janvier2026 = LocalDate.of(2026, 1, 1);
     var input =
         """
-    * `possèdeMateriel`, Dates:ajd posséder ordinateur valant 200000Ar, se dépréciant annuellement de 20%
+    * `possèdeMateriel`, Dates:ajd posséder ordinateur1 valant 200000Ar, se dépréciant annuellement de 20%
 """;
 
-    var expected = new Materiel("ordinateur", AJD, AJD, ariary(200_000), -0.2);
+    var expected = new Materiel("ordinateur1", AJD, AJD, ariary(200_000), -0.2);
 
     Materiel actual = visitor.visit(input, PatriLangParser::possedeMateriel);
 

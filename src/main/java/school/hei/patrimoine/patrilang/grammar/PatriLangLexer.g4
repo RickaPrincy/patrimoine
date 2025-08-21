@@ -126,6 +126,9 @@ MOT_REMBOURSER
 MOT_POSSEDER
     :   'posséder'
     ;
+MOT_POSSEDER_IMMOBILIER
+    :   'posséder immobilier'
+    ;
 MOT_OBTENU
     :   'obtenu'
     ;

@@ -176,7 +176,7 @@ operation
     ;
 
 possedeImmobilier
-    :   MUL id COMMA? dateValue=variable COMMA? MOT_POSSEDER immobilierNom=text
+    :   MUL id COMMA? dateValue=variable COMMA? MOT_POSSEDER_IMMOBILIER immobilierNom=text
         COMMA? MOT_VALANT valeurComptable=variable
         (MOT_OBTENU dateObtention=variable)?
         COMMA? MATERIEL_APPRECIATION MOT_ANNUELLEMENT_DE pourcentageAppreciation=variable PERCENT

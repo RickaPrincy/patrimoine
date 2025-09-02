@@ -1,4 +1,4 @@
-package school.hei.patrimoine.modele.recouppement.possession;
+package school.hei.patrimoine.modele.recouppement.generateur;
 
 import school.hei.patrimoine.modele.possession.Correction;
 import school.hei.patrimoine.modele.possession.FluxArgent;
@@ -14,7 +14,7 @@ public class FluxArgentCorrectionGenerateur extends CorrectionGenerateurBase<Flu
     @Override
     public Set<Correction> nonExecuté(FluxArgent nonExecuté) {
         var compte = nonExecuté.getCompte();
-        return Set.of(new Correction(new FluxArgent("non_execute_", compte, nonExecuté.t(), nonExecuté.getFluxMensuel())));
+        return Set.of(new Correction(new FluxArgent("non_execute_" + nonExecuté.nom(), compte, nonExecuté.t(), nonExecuté.getFluxMensuel())));
     }
 
     @Override

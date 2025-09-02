@@ -1,4 +1,4 @@
-package school.hei.patrimoine.modele.recouppement.possession;
+package school.hei.patrimoine.modele.recouppement.generateur;
 
 import school.hei.patrimoine.modele.possession.Correction;
 import school.hei.patrimoine.modele.possession.Possession;

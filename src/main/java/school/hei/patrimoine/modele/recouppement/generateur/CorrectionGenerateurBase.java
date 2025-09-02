@@ -1,4 +1,4 @@
-package school.hei.patrimoine.modele.recouppement.possession;
+package school.hei.patrimoine.modele.recouppement.generateur;
 
 import school.hei.patrimoine.modele.possession.Correction;
 import school.hei.patrimoine.modele.possession.FluxArgent;
@@ -6,12 +6,12 @@ import school.hei.patrimoine.modele.possession.Possession;
 
 import java.util.Set;
 
-public class CorrectionGenerateurBase<T extends Possession> implements CorrectionGenerateur<T>{
+public class CorrectionGenerateurBase<T extends Possession> implements CorrectionGenerateur<T> {
     @Override
     public Set<Correction> comparer(T prévu, T réalité) {
         var compte = prévu.getCompteCorrection().getCompte();
-        if(memeDate(prévu, réalité)){
-            if(memeValeurComptable(prévu, réalité)){
+        if (memeDate(prévu, réalité)) {
+            if (memeValeurComptable(prévu, réalité)) {
                 return Set.of();
             }
 
@@ -22,8 +22,8 @@ public class CorrectionGenerateurBase<T extends Possession> implements Correctio
         }
 
         return Set.of(
-            new Correction(new FluxArgent("retard" + prévu.nom(), compte, prévu.t(), prévu.valeurComptable())),
-            new Correction(new FluxArgent("retard_pair" + prévu.nom(), compte, prévu.t(), réalité.valeurComptable().mult(-1)))
+                new Correction(new FluxArgent("retard" + prévu.nom(), compte, prévu.t(), prévu.valeurComptable())),
+                new Correction(new FluxArgent("retard_pair" + prévu.nom(), compte, prévu.t(), réalité.valeurComptable().mult(-1)))
         );
     }
 
@@ -38,11 +38,11 @@ public class CorrectionGenerateurBase<T extends Possession> implements Correctio
         return Set.of();
     }
 
-    public boolean memeDate(Possession prévu, Possession réalité){
+    public boolean memeDate(Possession prévu, Possession réalité) {
         return prévu.t().equals(réalité.t());
     }
 
-    public boolean memeValeurComptable(Possession prévu, Possession réalité){
+    public boolean memeValeurComptable(Possession prévu, Possession réalité) {
         return prévu.valeurComptable().equals(réalité.valeurComptable());
     }
 }

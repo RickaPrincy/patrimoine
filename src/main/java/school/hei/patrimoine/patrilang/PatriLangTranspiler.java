@@ -1,16 +1,16 @@
 package school.hei.patrimoine.patrilang;
 
 import static java.util.Objects.isNull;
-import static org.antlr.v4.runtime.CharStreams.fromFileName;
 import static school.hei.patrimoine.patrilang.antlr.PatriLangParser.DocumentContext;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.*;
 import school.hei.patrimoine.cas.Cas;
 import school.hei.patrimoine.cas.CasSet;
 import school.hei.patrimoine.patrilang.antlr.PatriLangLexer;
 import school.hei.patrimoine.patrilang.antlr.PatriLangParser;
+import school.hei.patrimoine.patrilang.error.PatriLangErrorListener;
 import school.hei.patrimoine.patrilang.factory.SectionVisitorFactory;
 import school.hei.patrimoine.patrilang.visitors.PatriLangCasVisitor;
 import school.hei.patrimoine.patrilang.visitors.PatriLangToutCasVisitor;
@@ -50,11 +50,17 @@ public class PatriLangTranspiler {
     return (CasSet) patrilangVisitor.visitDocument(tree);
   }
 
-  private static DocumentContext parseAsTree(String filePath) {
+  public static DocumentContext parseAsTree(String filePath) {
     try {
-      var lexer = new PatriLangLexer(fromFileName(filePath));
+      var lexer = new PatriLangLexer(CharStreams.fromFileName(filePath));
+      lexer.removeErrorListeners();
+      lexer.addErrorListener(new PatriLangErrorListener(filePath));
+
       var tokens = new CommonTokenStream(lexer);
       var parser = new PatriLangParser(tokens);
+      parser.removeErrorListeners();
+      parser.addErrorListener(new PatriLangErrorListener(filePath));
+
       return parser.document();
     } catch (IOException e) {
       throw new RuntimeException(e);

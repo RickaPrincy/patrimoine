@@ -103,9 +103,9 @@ public class FluxArgentRecoupeurDePossession extends RecoupeurDePossessionBase<F
       nom = nommerAsValeurDifferentes(prevu, t, correctionValeur);
     }
 
-    var oneRealise = realises.stream().findFirst().orElseThrow();
-    return Optional.of(
-        new Correction(new FluxArgent(nom, oneRealise.getCompte(), t, correctionValeur)));
+    var oneRealise = realises.stream().findFirst();
+    var compte = oneRealise.isPresent() ? oneRealise.get().getCompte() : prevu.getCompte();
+    return Optional.of(new Correction(new FluxArgent(nom, compte, t, correctionValeur)));
   }
 
   @Override

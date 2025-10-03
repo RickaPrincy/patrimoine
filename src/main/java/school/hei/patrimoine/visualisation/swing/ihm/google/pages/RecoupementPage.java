@@ -5,6 +5,8 @@ import static school.hei.patrimoine.visualisation.swing.ihm.google.component.App
 import static school.hei.patrimoine.visualisation.swing.ihm.google.utils.MessageDialog.showError;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.*;
 import java.util.List;
@@ -37,7 +39,9 @@ public class RecoupementPage extends LazyPage {
 
   public RecoupementPage() {
     super(PAGE_NAME);
-    this.state = new State(Map.of("filterStatus", PossessionRecoupeeFilterStatus.NON_EXECUTE));
+    this.state =
+        new State(
+            Map.of("filterStatus", PossessionRecoupeeFilterStatus.NON_EXECUTE, "filterName", ""));
     this.possessionRecoupeeListPanel = new PossessionRecoupeeListPanel(state);
 
     state.subscribe(Set.of("filterStatus", "selectedFile"), this::update);
@@ -93,10 +97,32 @@ public class RecoupementPage extends LazyPage {
               new AddImprevuDialog(state);
             });
 
+    var nameFilter = new JTextField();
+    nameFilter.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+    nameFilter.addKeyListener(
+        new KeyAdapter() {
+          @Override
+          public void keyReleased(KeyEvent evt) {
+            state.update("filterName", nameFilter.getText().trim());
+          }
+        });
+
+    var validateButton =
+        new Button(
+            "Valider",
+            e -> {
+              state.update("filterName", nameFilter.getText().trim());
+              update();
+            });
+
     var appBar =
         new AppBar(
             List.of(
-                new NavigateButton("Retour", "patrilang-files"), statusFilter, addImprevuButton),
+                new NavigateButton("Retour", "patrilang-files"),
+                statusFilter,
+                addImprevuButton,
+                nameFilter,
+                validateButton),
             List.of(builtInUserInfoPanel()));
 
     add(appBar, BorderLayout.NORTH);
@@ -138,8 +164,15 @@ public class RecoupementPage extends LazyPage {
       case EXECUTE_SANS_CORRECTION -> statusToKeep.add(RecoupementStatus.EXECUTE_SANS_CORRECTION);
     }
 
+    String filterName = state.get("filterName");
+
     return possessionsRecoupees.stream()
         .filter(p -> statusToKeep.contains(p.status()))
+        .filter(
+            p ->
+                filterName == null
+                    || filterName.isEmpty()
+                    || p.possession().nom().toLowerCase().contains(filterName.toLowerCase()))
         .sorted(Comparator.comparing((PossessionRecoupee p) -> p.possession().t()).reversed())
         .toList();
   }

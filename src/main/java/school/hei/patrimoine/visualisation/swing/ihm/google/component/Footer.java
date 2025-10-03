@@ -1,6 +1,7 @@
 package school.hei.patrimoine.visualisation.swing.ihm.google.component;
 
 import java.awt.*;
+import java.util.Set;
 import java.util.stream.IntStream;
 import javax.swing.*;
 import school.hei.patrimoine.visualisation.swing.ihm.google.modele.State;
@@ -20,20 +21,52 @@ public class Footer extends JPanel {
 
     previousPageButton = new Button("Précédente");
     previousPageButton.addActionListener(e -> goToPreviousPage());
+
+    previousPageButton.setFont(new Font("Arial", 0, 14));
+    previousPageButton.setBackground(Color.WHITE);
+    previousPageButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    previousPageButton.setPreferredSize(new Dimension(110, 40));
+
     pageSelector = new JComboBox<>();
+    pageSelector.setFont(new Font("Arial", Font.PLAIN, 14));
+    pageSelector.setPreferredSize(new Dimension(70, 28));
+    pageSelector.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    pageSelector.setRenderer(
+        new DefaultListCellRenderer() {
+          @Override
+          public Component getListCellRendererComponent(
+              JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            JLabel label =
+                (JLabel)
+                    super.getListCellRendererComponent(
+                        list, value, index, isSelected, cellHasFocus);
+            label.setOpaque(true);
+            label.setHorizontalAlignment(CENTER);
+
+            label.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+            label.setBackground(isSelected ? new Color(100, 150, 255) : Color.WHITE);
+            label.setForeground(isSelected ? Color.WHITE : Color.BLACK);
+
+            return label;
+          }
+        });
+
     nextPageButton = new Button("Suivante");
     nextPageButton.addActionListener(e -> goToNextPage());
+
+    nextPageButton.setFont(new Font("Arial", 0, 14));
+    nextPageButton.setBackground(Color.WHITE);
+    nextPageButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    nextPageButton.setPreferredSize(new Dimension(110, 40));
 
     add(previousPageButton);
     add(pageSelector);
     add(nextPageButton);
 
-    // Initialisation de la pagination
     state.update("currentPage", 1);
     state.update("totalPages", 1);
 
-    // Synchroniser affichage avec le state
-    state.subscribe(java.util.Set.of("currentPage", "totalPages"), () -> updatePageSelector());
+    state.subscribe(Set.of("currentPage", "totalPages"), () -> updatePageSelector());
 
     pageSelector.addActionListener(
         e -> {

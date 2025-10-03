@@ -11,6 +11,7 @@ import java.io.File;
 import java.util.*;
 import java.util.List;
 import javax.swing.*;
+import javax.swing.Timer;
 import school.hei.patrimoine.cas.Cas;
 import school.hei.patrimoine.cas.CasSet;
 import school.hei.patrimoine.modele.recouppement.PossessionRecoupee;
@@ -44,7 +45,7 @@ public class RecoupementPage extends LazyPage {
             Map.of("filterStatus", PossessionRecoupeeFilterStatus.NON_EXECUTE, "filterName", ""));
     this.possessionRecoupeeListPanel = new PossessionRecoupeeListPanel(state);
 
-    state.subscribe(Set.of("filterStatus", "selectedFile"), this::update);
+    state.subscribe(Set.of("filterStatus", "selectedFile", "filterName"), this::update);
     globalState()
         .subscribe(
             Set.of("newUpdate"),
@@ -80,7 +81,7 @@ public class RecoupementPage extends LazyPage {
   private void addAppBar() {
     var statusFilter = new JComboBox<>(PossessionRecoupeeFilterStatus.values());
     statusFilter.setSelectedItem(PossessionRecoupeeFilterStatus.NON_EXECUTE);
-    statusFilter.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+    statusFilter.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
     statusFilter.setCursor(new Cursor(Cursor.HAND_CURSOR));
     statusFilter.addActionListener(
         e -> state.update("filterStatus", statusFilter.getSelectedItem()));
@@ -98,22 +99,25 @@ public class RecoupementPage extends LazyPage {
             });
 
     var nameFilter = new JTextField();
-    nameFilter.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+    nameFilter.setPreferredSize(new Dimension(180, 35));
+    nameFilter.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
+
+    int debounceDelay = 500;
+    Timer debounceTimer =
+        new Timer(
+            debounceDelay,
+            e -> {
+              state.update("filterName", nameFilter.getText().trim());
+            });
+    debounceTimer.setRepeats(false);
+
     nameFilter.addKeyListener(
         new KeyAdapter() {
           @Override
           public void keyReleased(KeyEvent evt) {
-            state.update("filterName", nameFilter.getText().trim());
+            debounceTimer.restart();
           }
         });
-
-    var validateButton =
-        new Button(
-            "Valider",
-            e -> {
-              state.update("filterName", nameFilter.getText().trim());
-              update();
-            });
 
     var appBar =
         new AppBar(
@@ -121,8 +125,7 @@ public class RecoupementPage extends LazyPage {
                 new NavigateButton("Retour", "patrilang-files"),
                 statusFilter,
                 addImprevuButton,
-                nameFilter,
-                validateButton),
+                nameFilter),
             List.of(builtInUserInfoPanel()));
 
     add(appBar, BorderLayout.NORTH);
@@ -186,7 +189,7 @@ public class RecoupementPage extends LazyPage {
     AsyncTask.<List<PossessionRecoupee>>builder()
         .task(this::getFilteredPossessionRecoupees)
         .onSuccess(possessionRecoupeeListPanel::update)
-        .withDialogLoading(isActive())
+        .withDialogLoading(false)
         .build()
         .execute();
   }

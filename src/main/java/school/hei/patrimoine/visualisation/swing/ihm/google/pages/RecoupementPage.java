@@ -15,6 +15,7 @@ import school.hei.patrimoine.modele.recouppement.PossessionRecoupee;
 import school.hei.patrimoine.modele.recouppement.RecoupementStatus;
 import school.hei.patrimoine.modele.recouppement.RecoupeurDePossessions;
 import school.hei.patrimoine.visualisation.swing.ihm.google.component.AppBar;
+import school.hei.patrimoine.visualisation.swing.ihm.google.component.Footer;
 import school.hei.patrimoine.visualisation.swing.ihm.google.component.app.LazyPage;
 import school.hei.patrimoine.visualisation.swing.ihm.google.component.button.Button;
 import school.hei.patrimoine.visualisation.swing.ihm.google.component.button.NavigateButton;
@@ -40,7 +41,7 @@ public class RecoupementPage extends LazyPage {
     this.state = new State(Map.of("filterStatus", PossessionRecoupeeFilterStatus.NON_EXECUTE));
     this.possessionRecoupeeListPanel = new PossessionRecoupeeListPanel(state);
 
-    state.subscribe(Set.of("filterStatus", "selectedFile"), this::update);
+    state.subscribe(Set.of("filterStatus", "selectedFile", "currentPage"), this::update);
     globalState()
         .subscribe(
             Set.of("newUpdate"),
@@ -58,6 +59,7 @@ public class RecoupementPage extends LazyPage {
 
     addAppBar();
     addMainSplitPane();
+    addFouter();
   }
 
   private void updateCasSet() {
@@ -100,6 +102,11 @@ public class RecoupementPage extends LazyPage {
             List.of(builtInUserInfoPanel()));
 
     add(appBar, BorderLayout.NORTH);
+  }
+
+  public void addFouter() {
+    var footer = new Footer(state);
+    add(footer, BorderLayout.SOUTH);
   }
 
   private void addMainSplitPane() {
@@ -152,8 +159,21 @@ public class RecoupementPage extends LazyPage {
 
     AsyncTask.<List<PossessionRecoupee>>builder()
         .task(this::getFilteredPossessionRecoupees)
-        .onSuccess(possessionRecoupeeListPanel::update)
-        .withDialogLoading(isActive())
+        .onSuccess(
+            list -> {
+              int pageSize = 1;
+              int totalPages = (int) Math.ceil((double) list.size() / pageSize);
+              state.update("totalPages", Math.max(1, totalPages));
+
+              int currentPage = (int) state.get("currentPage");
+              int fromIndex = Math.min((currentPage - 1) * pageSize, list.size());
+              int toIndex = Math.min(fromIndex + pageSize, list.size());
+
+              var paginated = list.subList(fromIndex, toIndex);
+
+              possessionRecoupeeListPanel.update(paginated);
+            })
+        .withDialogLoading(false)
         .build()
         .execute();
   }

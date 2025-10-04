@@ -161,7 +161,7 @@ public class RecoupementPage extends LazyPage {
         .task(this::getFilteredPossessionRecoupees)
         .onSuccess(
             list -> {
-              int pageSize = 1;
+              int pageSize = 50;
               int totalPages = (int) Math.ceil((double) list.size() / pageSize);
               state.update("totalPages", Math.max(1, totalPages));
 
@@ -173,7 +173,7 @@ public class RecoupementPage extends LazyPage {
 
               possessionRecoupeeListPanel.update(paginated);
             })
-        .withDialogLoading(false)
+        .withDialogLoading(isActive())
         .build()
         .execute();
   }

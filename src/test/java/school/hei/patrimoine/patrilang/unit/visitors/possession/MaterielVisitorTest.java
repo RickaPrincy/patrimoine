@@ -4,8 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static school.hei.patrimoine.modele.Argent.ariary;
 import static school.hei.patrimoine.patrilang.antlr.PatriLangParser.PossedeMaterielContext;
 import static school.hei.patrimoine.patrilang.modele.variable.VariableType.DATE;
+import static school.hei.patrimoine.patrilang.modele.variable.VariableType.MATERIEL;
 
 import java.time.LocalDate;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import school.hei.patrimoine.modele.possession.Materiel;
 import school.hei.patrimoine.patrilang.antlr.PatriLangParser;
@@ -15,7 +18,7 @@ import school.hei.patrimoine.patrilang.visitors.variable.VariableVisitor;
 
 class MaterielVisitorTest {
   private static final LocalDate AJD = LocalDate.of(2025, 6, 23);
-  private static final VariableVisitor variableVisitor = new VariableVisitor();
+  private static VariableVisitor variableVisitor = new VariableVisitor();
 
   MaterielVisitor subject = new MaterielVisitor(variableVisitor);
 
@@ -28,6 +31,12 @@ class MaterielVisitorTest {
       };
 
   static {
+    variableVisitor.addToScope("ajd", DATE, AJD);
+  }
+
+  @AfterEach
+  void setUp() {
+    variableVisitor = new VariableVisitor();
     variableVisitor.addToScope("ajd", DATE, AJD);
   }
 
@@ -67,5 +76,20 @@ class MaterielVisitorTest {
     assertEquals(
         expected.projectionFuture(au1Janvier2026).valeurComptable(),
         actual.projectionFuture(au1Janvier2026).valeurComptable());
+  }
+
+  @Test
+  void get_materiel_from_the_variable_scope() {
+    var input =
+        """
+    * `possèdeMateriel`, Dates:ajd posséder ordinateur valant 200000Ar, se dépréciant annuellement de 20%
+""";
+
+    visitor.visit(input, PatriLangParser::possedeMateriel);
+
+    var expected = new Materiel("ordinateur", AJD, AJD, ariary(200_000), -0.2);
+    var actual = variableVisitor.getVariableScope().get("ordinateur", MATERIEL).value();
+
+    assertEquals(expected, actual);
   }
 }

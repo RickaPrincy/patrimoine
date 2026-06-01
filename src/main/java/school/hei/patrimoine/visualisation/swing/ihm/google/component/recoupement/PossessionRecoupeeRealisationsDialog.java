@@ -33,6 +33,7 @@ import school.hei.patrimoine.patrilang.generator.possession.CommentPatriLangGene
 import school.hei.patrimoine.patrilang.generator.possession.PieceJustificativePatriLangGenerator;
 import school.hei.patrimoine.visualisation.swing.ihm.google.component.Dialog;
 import school.hei.patrimoine.visualisation.swing.ihm.google.component.app.MultiViews;
+import school.hei.patrimoine.visualisation.swing.ihm.google.component.appbar.builtin.PJFieldsValidator;
 import school.hei.patrimoine.visualisation.swing.ihm.google.component.button.Button;
 import school.hei.patrimoine.visualisation.swing.ihm.google.generator.PossessionGeneratorFactory;
 import school.hei.patrimoine.visualisation.swing.ihm.google.generator.possession.PieceJustificativeGenerator;
@@ -207,12 +208,15 @@ public class PossessionRecoupeeRealisationsDialog extends Dialog {
   }
 
   private PendingData buildInfoFromForm(AddRecoupementExecutionForm form) {
+    PJFieldsValidator.validatePJ(form);
+
     var pjGenerator = new PieceJustificativeGenerator();
     var possessionGenerator = PossessionGeneratorFactory.make(possessionRecoupee.possession());
 
     var comment = form.getComment();
     var newPossession = possessionGenerator.apply(getPossessionArgs(form));
-    var newPj = pjGenerator.apply(getPjArgs(newPossession, form));
+    var newPj =
+        PJFieldsValidator.hasPJ(form) ? pjGenerator.apply(getPjArgs(newPossession, form)) : null;
 
     var info =
         Info.builder()

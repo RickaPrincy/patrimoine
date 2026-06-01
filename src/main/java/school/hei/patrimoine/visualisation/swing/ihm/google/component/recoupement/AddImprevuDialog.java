@@ -29,6 +29,7 @@ import school.hei.patrimoine.patrilang.generator.possession.CommentPatriLangGene
 import school.hei.patrimoine.patrilang.generator.possession.PieceJustificativePatriLangGenerator;
 import school.hei.patrimoine.patrilang.modele.PatriLangCas;
 import school.hei.patrimoine.visualisation.swing.ihm.google.component.Dialog;
+import school.hei.patrimoine.visualisation.swing.ihm.google.component.appbar.builtin.PJFieldsValidator;
 import school.hei.patrimoine.visualisation.swing.ihm.google.component.button.Button;
 import school.hei.patrimoine.visualisation.swing.ihm.google.generator.possession.ExecutionGenerator;
 import school.hei.patrimoine.visualisation.swing.ihm.google.generator.possession.FluxArgentExecutionGenerator;
@@ -184,12 +185,18 @@ public class AddImprevuDialog extends Dialog {
   }
 
   private String getPjLine(Possession possession) {
+    if (!PJFieldsValidator.hasPJ(form)) {
+      return "";
+    }
+
     var pj = new PieceJustificativeGenerator().apply(getPjArgs(possession));
     var generator = new PieceJustificativePatriLangGenerator();
     return pj == null ? "" : generator.apply(pj);
   }
 
   private void addExecution() {
+    PJFieldsValidator.validatePJ(form);
+
     var selectedFile = getSelectedFile(state).orElseThrow();
     var generator = getExecutionGenerator();
     var newPossession = generator.apply(getPossessionArgs());

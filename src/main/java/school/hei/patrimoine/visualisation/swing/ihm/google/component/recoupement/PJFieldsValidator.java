@@ -1,6 +1,4 @@
-package school.hei.patrimoine.visualisation.swing.ihm.google.component.appbar.builtin;
-
-import school.hei.patrimoine.visualisation.swing.ihm.google.component.recoupement.AddRecoupementExecutionForm;
+package school.hei.patrimoine.visualisation.swing.ihm.google.component.recoupement;
 
 public class PJFieldsValidator {
   private PJFieldsValidator() {}
@@ -29,6 +27,11 @@ public class PJFieldsValidator {
       throw new IllegalArgumentException(
           "Le lien de la pièce justificative est manquant."
               + " Veuillez renseigner les deux champs ou laisser les deux vides.");
+    }
+
+    if (hasLinkPJ(form) && form.getLinkPJ().contains("\"")) {
+      throw new IllegalArgumentException(
+          "Le lien de la pièce justificative ne doit pas contenir de guillemets (\").");
     }
   }
 }

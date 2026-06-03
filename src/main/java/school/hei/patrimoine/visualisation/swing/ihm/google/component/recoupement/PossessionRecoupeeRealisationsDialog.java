@@ -33,7 +33,6 @@ import school.hei.patrimoine.patrilang.generator.possession.CommentPatriLangGene
 import school.hei.patrimoine.patrilang.generator.possession.PieceJustificativePatriLangGenerator;
 import school.hei.patrimoine.visualisation.swing.ihm.google.component.Dialog;
 import school.hei.patrimoine.visualisation.swing.ihm.google.component.app.MultiViews;
-import school.hei.patrimoine.visualisation.swing.ihm.google.component.appbar.builtin.PJFieldsValidator;
 import school.hei.patrimoine.visualisation.swing.ihm.google.component.button.Button;
 import school.hei.patrimoine.visualisation.swing.ihm.google.generator.PossessionGeneratorFactory;
 import school.hei.patrimoine.visualisation.swing.ihm.google.generator.possession.PieceJustificativeGenerator;

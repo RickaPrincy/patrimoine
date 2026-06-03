@@ -8,7 +8,6 @@ import static school.hei.patrimoine.visualisation.swing.ihm.google.modele.files.
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.swing.JMenuItem;
 import school.hei.patrimoine.cas.CasSet;
 import school.hei.patrimoine.cas.CasSetAnalyzer;

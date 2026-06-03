@@ -161,7 +161,12 @@ public class RecoupementPage extends LazyPage {
             () -> {
               var selectedFile = fileList.getSelectedValue();
               if (selectedFile != null) {
-                state.update("selectedFile", selectedFile);
+                state.update(
+                    Map.of(
+                        "selectedFile",
+                        selectedFile,
+                        "pagination",
+                        new Pagination(1, RECOUPEMENT_ITEM_PER_PAGE)));
               }
             });
 
